@@ -45,3 +45,7 @@ Vercel: framework Other, raíz del repositorio, sin instalación ni compilación
 - `tests/`: pruebas del universo y simulador.
 - `assets/SOURCES.md`: procedencia de los recursos.
 - `docs/implementation.md`: decisiones y verificación.
+
+## Vista publicada
+
+![PADS Skin Lab A](docs/PADS_Skin_Lab_A.jpg)
