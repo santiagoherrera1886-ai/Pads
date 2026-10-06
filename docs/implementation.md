@@ -26,4 +26,8 @@ No se gasta presupuesto sobre una línea sin audiencia. Entradas no finitas, neg
 
 Ocho pruebas de Node: 101 mezclas 0–100%, alcance monótono y acotado, intersección limitada por ambas líneas, presupuesto cero, frecuencia deduplicada, validación financiera, suma exclusiva de personas y escenarios extremos. Sintaxis de app.js revisada con node --check.
 
-Verificación visual y de navegación en Vercel: pendiente de registrar después del despliegue.
+Verificación publicada en https://pads-fawn.vercel.app/: portada a 1363 px sin desbordamiento horizontal y con todos los empaques cargados; navegación a Audiencias, Productos, Medios, Simulador y Colombia; búsqueda de “viaje” deja Viajeras; ficha de Viajeras → guía de YouTube conserva el contexto; cambio a Control Poros actualiza los temas; inversión cero produce alcance y frecuencia cero; reparto inválido muestra error; restablecer recupera el ejemplo; selección de Cali actualiza el panel y el pin. Los cinco medios están presentes.
+
+La prueba de integración DOM también verificó filtros y exportaciones CSV, copia de guía, persistencia del último escenario válido y estado del menú móvil. Responsive implementado; no se realizó inspección visual en viewport móvil porque el navegador disponible no expone cambio de tamaño.
+
+Se corrigieron el botón de menú que aparecía innecesariamente en escritorio y el enlace de salto al contenido para conservar la ruta actual. No hay API ni datos de servidor que validar.

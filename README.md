@@ -2,6 +2,8 @@
 
 Plataforma independiente de planeación de audiencias para PADS JGB en Colombia. Diseño **A · Skin Lab**, aprobado por Santiago el 6 de octubre de 2026: marfil, lavanda y salvia; empaques originales y fotografías ilustrativas.
 
+Sitio: https://pads-fawn.vercel.app/
+
 Repositorio: https://github.com/santiagoherrera1886-ai/Pads
 
 ## Secciones funcionales
