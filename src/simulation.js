@@ -1,5 +1,5 @@
 import { buildAudienceUniverse } from './universe.js';
-export const EXAMPLE = Object.freeze({ cleansingOnly:3500000, shared:1400000, poreCareOnly:2100000, budget:100000000, cpm:8000, cleansingShare:60 });
+export const EXAMPLE = Object.freeze({ cleansingOnly:1500000, shared:600000, poreCareOnly:900000, budget:100000000, cpm:8000, cleansingShare:60 });
 export function simulate(input) {
   const population=buildAudienceUniverse(input);
   const {budget,cpm,cleansingShare}=input;

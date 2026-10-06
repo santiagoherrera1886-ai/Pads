@@ -1,5 +1,3 @@
-export const PLANNING_UNIVERSE = 7_000_000;
-
 /** Three mutually exclusive planning buckets. Product totals may overlap. */
 export function buildAudienceUniverse({ cleansingOnly, shared, poreCareOnly }) {
   const buckets = { cleansingOnly, shared, poreCareOnly };
@@ -9,8 +7,8 @@ export function buildAudienceUniverse({ cleansingOnly, shared, poreCareOnly }) {
     }
   }
   const unique = cleansingOnly + shared + poreCareOnly;
-  if (unique !== PLANNING_UNIVERSE) {
-    throw new RangeError('Los tres grupos exclusivos deben sumar exactamente 7.000.000 de personas.');
+  if (!Number.isSafeInteger(unique) || unique <= 0 || unique > 53_399_171) {
+    throw new RangeError('El total debe ser mayor que cero y no superar 53.399.171 personas (población nacional proyectada en 2026).');
   }
   return Object.freeze({
     ...buckets,

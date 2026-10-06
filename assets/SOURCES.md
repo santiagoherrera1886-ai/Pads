@@ -27,3 +27,6 @@ Prompt de retratos: “Generate a photorealistic contact sheet of exactly FIVE e
 
 ## Media marks · 2026-10-06
 Meta, YouTube, TikTok and Pinterest SVG paths from Simple Icons: https://github.com/simple-icons/simple-icons/tree/develop/icons (files meta.svg, youtube.svg, tiktok.svg, pinterest.svg). Brand colors applied locally. CTV is a generic television pictogram, not a provider logo.
+
+## Inclusive portraits · 2026-10-06
+`audiences-inclusive.webp`: generated with built-in image generation, prompt for exactly five equal editorial portrait panels: male office professional 35, woman at home 40, Afro-Colombian male athlete 30, female traveler 32, male adult university student 23. Natural skin texture, muted lavender/sage accents, no text or logos. These are fictional illustrative portraits, not measured consumer profiles. Original generated PNG retained in the workspace; WebP encoding used for delivery.

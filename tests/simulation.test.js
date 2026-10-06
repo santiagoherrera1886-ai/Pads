@@ -4,7 +4,7 @@ import {simulate,EXAMPLE} from '../src/simulation.js';
 test('all 101 mixes keep unique reach bounded, deduplicated and monotonic',()=>{
  for(let cleansingShare=0;cleansingShare<=100;cleansingShare++){
   const r=simulate({...EXAMPLE,cleansingShare});let previous=0;
-  for(const row of r.rows){assert.ok(row.unique>=previous);assert.ok(row.unique<=7000000);assert.ok(Math.abs(row.cleanReach+row.poreReach-row.overlap-row.unique)<1e-6);assert.ok(row.overlap<=Math.min(row.cleanReach,row.poreReach));previous=row.unique;}
+  for(const row of r.rows){assert.ok(row.unique>=previous);assert.ok(row.unique<=r.population.unique);assert.ok(Math.abs(row.cleanReach+row.poreReach-row.overlap-row.unique)<1e-6);assert.ok(row.overlap<=Math.min(row.cleanReach,row.poreReach));previous=row.unique;}
   if(cleansingShare===0)assert.equal(r.final.cleanReach,0);
   if(cleansingShare===100)assert.equal(r.final.poreReach,0);
  }

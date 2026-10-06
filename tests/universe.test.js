@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildAudienceUniverse, PLANNING_UNIVERSE } from '../src/universe.js';
+import { buildAudienceUniverse } from '../src/universe.js';
 
 test('counts shared people once in the universe and in both product totals', () => {
   const result = buildAudienceUniverse({ cleansingOnly: 3_500_000, shared: 1_400_000, poreCareOnly: 2_100_000 });
   assert.equal(result.cleansing, 4_900_000);
   assert.equal(result.poreCare, 3_500_000);
-  assert.equal(result.unique, PLANNING_UNIVERSE);
+  assert.equal(result.unique, 7_000_000);
   assert.equal(result.cleansing + result.poreCare - result.shared, result.unique);
 });
 
@@ -30,8 +30,7 @@ test('rejects missing, nonnumeric, fractional, negative and nonfinite buckets', 
   }
 });
 
-test('rejects population totals above and below the agreed universe', () => {
-  for (const shared of [1_399_999, 1_400_001]) {
-    assert.throws(() => buildAudienceUniverse({ cleansingOnly: 3_500_000, shared, poreCareOnly: 2_100_000 }), /7\.000\.000/);
-  }
+test('accepts editable universe totals and rejects empty or impossible national totals', () => {
+  assert.equal(buildAudienceUniverse({cleansingOnly:100,shared:200,poreCareOnly:300}).unique,600);
+  for(const n of [0,53399172]) assert.throws(()=>buildAudienceUniverse({cleansingOnly:0,shared:0,poreCareOnly:n}),RangeError);
 });

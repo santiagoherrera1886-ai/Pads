@@ -2,8 +2,8 @@ export const project = {
   name: 'PADS Audience Lab',
   brand: 'JGB',
   market: 'Colombia',
-  planningUniverse: 7_000_000,
-  universeSource: 'Definición del usuario, 6 de octubre de 2026.',
+  planningUniverse: null,
+  universeSource: 'DANE y escenarios explícitos de afinidad; compradores aún no medidos.',
   allocation: null,
   geographyAllocation: null,
   tribeAllocation: null,
@@ -38,10 +38,10 @@ export const products = [
 // Editorial planning hypotheses based on the brief. They are not measured
 // audiences or guaranteed selectable advertising-platform interests.
 export const audiences = [
-  { id: 'productivas', name: 'Productivas', context: 'Trabajo y movimiento por la ciudad', need: 'Practicidad y un momento propio', message: 'El cuidado también tiene un lugar en tu día.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
-  { id: 'madres', name: 'Madres', context: 'Equilibrio entre responsabilidades y autocuidado', need: 'Confianza y sencillez', message: 'Un momento para cuidar de ti.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
+  { id: 'productivas', name: 'Vida laboral', context: 'Trabajo y movimiento por la ciudad', need: 'Practicidad y un momento propio', message: 'El cuidado también tiene un lugar en tu día.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
+  { id: 'madres', name: 'Madres y padres', context: 'Equilibrio entre responsabilidades y autocuidado', need: 'Confianza y sencillez', message: 'Un momento para cuidar de ti.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
   { id: 'deportistas', name: 'Deportistas', context: 'Una vida activa', need: 'Una rutina que acompañe su ritmo', message: 'Tu día se mueve. Tu cuidado te acompaña.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
-  { id: 'viajeras', name: 'Viajeras', context: 'Cambios de entorno y rutinas fuera de casa', need: 'Practicidad y continuidad', message: 'Tu momento de cuidado, donde estés.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
+  { id: 'viajeras', name: 'Viajes', context: 'Cambios de entorno y rutinas fuera de casa', need: 'Practicidad y continuidad', message: 'Tu momento de cuidado, donde estés.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
   { id: 'estudiantes', name: 'Estudiantes', context: 'Construcción de hábitos y exploración de tendencias', need: 'Comprender el producto y su lugar en la rutina', message: 'Conoce el paso que estás sumando a tu rutina.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
 ];
 
