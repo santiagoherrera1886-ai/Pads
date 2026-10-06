@@ -31,3 +31,6 @@ Verificación publicada en https://pads-fawn.vercel.app/: portada a 1363 px sin 
 La prueba de integración DOM también verificó filtros y exportaciones CSV, copia de guía, persistencia del último escenario válido y estado del menú móvil. Responsive implementado; no se realizó inspección visual en viewport móvil porque el navegador disponible no expone cambio de tamaño.
 
 Se corrigieron el botón de menú que aparecía innecesariamente en escritorio y el enlace de salto al contenido para conservar la ruta actual. No hay API ni datos de servidor que validar.
+
+## Revision · 2026-10-06
+Product hero uses bounded grid cells and contain sizing at all existing breakpoints. Media glyphs replaced with local SVG brand marks; CTV uses a television pictogram. Audience profiles now expose context, product-interest families, four proposed searches per product/persona, and creative direction. Contextual media guides add activation location, platform-specific mechanics, own-data prerequisites, controlled comparisons and KPIs. Copy/download includes the entire plan. All examples remain labeled hypotheses; no audience sizes assigned. Official Google, TikTok and Pinterest documentation rechecked. Existing integration and eight model tests pass.
