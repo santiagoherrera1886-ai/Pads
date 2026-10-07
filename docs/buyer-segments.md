@@ -1,56 +1,43 @@
-# Compradores actuales de pads + audiencia nueva
+# Compradores actuales + audiencia nueva: cruce de alcance del 10%
 
-Implementación: 7 de octubre de 2026. Referencia visual: tarjeta azul/violeta de audiencia única de Ritual aportada por el usuario.
+Actualizado el 7 de octubre de 2026 a partir de la indicación de aplicar una intersección del 10% al alcance.
 
-## Definición
+## Qué se cruza
 
-Compradores actuales son personas que ya compran pads de la categoría; no solo clientes de JGB ni necesariamente compradores de Control Poros. Audiencia nueva es el resto de la base de comunicación, excluyendo a esos compradores actuales. No equivale a clientes adquiridos por la campaña.
+En el simulador, los círculos representan audiencias de pauta: una orientada a quienes ya compran pads y otra de prospección para descubrir nueva audiencia. La prospección puede incluir compradores actuales. El 10% es una hipótesis de cruce entre esas estrategias, no un dato de compradores observado.
 
-Los grupos se excluyen por definición: intersección cero. Los círculos separados son esquemáticos y sus áreas no son proporcionales. No se reutiliza la intersección de publicidad entre líneas de producto, que responde a otra pregunta.
+Universo y Audiencias conservan la composición potencial por estado de compra: compradores actuales y personas por incorporar a la categoría. Esos estados se excluyen por definición. La base nacional continúa en 30 M; no se descuenta el 10% de la población.
 
-## Supuestos y cálculo
+## Denominador y cálculo
 
-El reparto inicial **20% / 80% es un ejemplo editable sin medición de penetración de categoría**. No procede de DANE, CRM ni resultados de medios. El estado se conserva en este navegador mediante `pads-buyers-v1`, con validación entre 0 y 100.
+El denominador es la **suma A + B de los dos alcances antes de descontar este cruce**. No es el 10% de la audiencia menor ni de la población nacional.
 
-- Base: U = universo de comunicación (30 M por defecto).
-- Compradores actuales supuestos: B = redondear(U × porcentaje / 100).
-- Audiencia nueva supuesta: N = U − B.
-- Total único: B + N − 0 = U.
-- En el simulador: R = alcance único al cierre de sus 12 olas, calculado con inversión, CPM y el universo activo.
-- Reparto de alcance: R_actuales = R × B/U; R_nueva = R − R_actuales.
+1. El modelo por producto calcula un alcance base R a partir de universo, presupuesto y CPM, con su propia intersección entre líneas.
+2. Para esta sensibilidad adicional usamos R como suma bruta de las dos estrategias: A = R × reparto; B = R − A.
+3. Intersección de audiencias I = R × 10%.
+4. Alcance único ajustado = A + B − I = R × 90%.
+5. Frecuencia ajustada = impresiones / alcance único ajustado; es cero cuando no hay alcance.
 
-La última operación supone la misma tasa de exposición en ambos perfiles. Editar el porcentaje no cambia el alcance total ni crea un presupuesto por perfil. La inversión continúa repartida entre líneas de producto. El modelo tampoco predice ventas, conversiones o nuevos compradores.
+Este ajuste adicional de planeación no se deduce de los datos del modelo por producto ni constituye deduplicación observada. Las columnas de intersección entre productos y entre audiencias permanecen identificadas por separado.
 
-En Universo y Audiencias, 6 M + 24 M = 30 M es únicamente el ejemplo inicial de composición potencial. En Simulador se muestran personas proyectadas alcanzadas, no esos 30 M como alcance garantizado. Con presupuesto cero, ambos alcances son cero y la base potencial permanece.
+Con la configuración de la captura (18,3% / 81,7%, inversión $100 M, CPM $8.000 y base 30 M), el alcance base es 10.222.781,09 aproximadamente: A ≈ 1,87 M, B ≈ 8,35 M, I ≈ 1,02 M y alcance ajustado ≈ 9,20 M. La frecuencia media ajustada se muestra como 1,4. Los cálculos usan precisión completa; los rótulos en millones redondean a dos decimales.
 
-La compra a $80.000 mantiene su análisis independiente. La nueva clasificación no demuestra capacidad de pago, afinidad o disponibilidad de producto.
+## Límites y persistencia
 
-## Validación futura
+El reparto inicial 20% / 80% sigue siendo un ejemplo no medido. Se conserva el porcentaje válido guardado en `pads-buyers-v1`; la actualización no reemplaza un 18,3% guardado. No hay CRM ni cuentas de publicidad conectadas.
 
-Sustituir el ejemplo por un estudio representativo de categoría con definición de comprador, período de compra y cobertura explícitos. Un CRM de JGB identifica compradores registrados de la marca; no mide toda la categoría. La ausencia de un registro no prueba que la persona nunca haya comprado pads.
+Una intersección no puede ser mayor que ninguna audiencia. Por eso el simulador limita el reparto a 10–90%. Las vistas de base potencial admiten 0–100%; si un porcentaje de allí resulta incompatible con el simulador, se muestra una explicación y un botón para restablecer 20% / 80%, sin inventar una intersección imposible.
+
+La base no demuestra capacidad de pago, afinidad o disponibilidad de producto. El análisis del producto de $80.000 continúa por separado. El alcance de prospección no equivale a compradores adquiridos.
 
 ## Interfaz y exportación
 
-Las tres vistas muestran supuesto, total, definiciones y estrategias distintas para quienes ya compran y quienes están por incorporar a la categoría. El icono de información detalla el método. Número y deslizador se sincronizan y conservan el último valor válido ante entradas fuera de rango.
+El gráfico del simulador muestra círculos cruzados, valor de intersección y etiqueta 10%. Sus áreas no son proporcionales. El total, los indicadores, la curva ajustada, la tabla de 12 olas y los CSV aplican el mismo descuento. La curva de alcance base se conserva como referencia diferenciada.
 
-El CSV de reparto distingue base potencial y alcance. Los CSV generales de Universo y Simulador incluyen las hipótesis; las 12 olas añaden compradores actuales y audiencia nueva alcanzados. El redondeo exportado conserva exactamente cada total.
+Los CSV exportan denominador, porcentaje, alcances de cada estrategia, intersección y total ajustado. Para reconciliar personas enteras, se redondea el alcance base y el cruce; el alcance ajustado exportado es la diferencia exacta. La audiencia nueva es el resto de la suma bruta después de redondear compradores actuales.
+
+Con inversión cero, ambos alcances, intersección, total ajustado y frecuencia son cero; las bases potenciales permanecen.
 
 ## Verificación
 
-18 pruebas automatizadas pasan, incluidas conservación del universo y del alcance para 101 repartos, tres tamaños de base y tres presupuestos; presupuesto cero; entradas inválidas; persistencia; y exportación sin etiquetar la base potencial como personas alcanzadas.
-
-La revisión de integración pasó: controles y validación, navegación entre vistas, persistencia, diálogo de metodología, presupuesto cero, escenario inválido y cuatro descargas de prueba (reparto potencial, análisis de Universo, reparto proyectado y escenario).
-
-Producción verificada en https://pads-fawn.vercel.app/#simulator, implementación `db05ddf1d656eeea7c5b1bf7e9ee713d91164d8b`:
-
-- Vercel reportó despliegue completado.
-- Con $100 M y CPM $8.000, 20% / 80% muestra 2,04 M + 8,18 M = 10,22 M de alcance, sobre bases de 6 M y 24 M.
-- Cambiar a 40% / 60% muestra 4,09 M + 6,13 M y conserva 10,22 M de alcance.
-- Introducir 101 muestra el error y conserva el último gráfico válido.
-- Inversión cero produce alcance cero en ambos perfiles y conserva las bases potenciales.
-- El diálogo de método abre y cierra; Audiencias recupera el reparto 20% / 80% y muestra 6 M + 24 M = 30 M.
-- La descarga real contiene 2.044.556 + 8.178.225 = 10.222.781 personas proyectadas, con supuestos explícitos.
-- Sin errores de consola del dominio. Ancho de documento igual al viewport (1.348 px): sin desbordamiento horizontal en la vista inspeccionada.
-- Se restauró el escenario inicial y se guardó la captura. La revisión visual se realizó en escritorio.
-
-![Compradores actuales y audiencia nueva en el simulador de PADS](PADS_Compradores_Audiencia_Nueva.jpg)
+Pruebas del modelo: caso de la captura, límites 10–90%, rechazo de cruces imposibles, presupuesto cero, conservación de inversión y universo, frecuencia, 12 olas y conciliación exacta del CSV redondeado. 21 pruebas automatizadas pasan. La revisión de integración confirma persistencia del 18,3%, cruce de 1,02 M, alcance final de 9,20 M coherente entre gráfico/KPI/12 olas/CSV, presupuesto cero, diálogo de método, validación del límite 10–90% y recuperación de un reparto incompatible. La revisión visual de producción se registra al publicar.

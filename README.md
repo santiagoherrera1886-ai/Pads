@@ -16,7 +16,7 @@ Repositorio: https://github.com/santiagoherrera1886-ai/Pads
 - Colombia: contorno nacional y cinco clústeres por afinidad, sin segmentación por ciudades.
 - Simulador: reparto exclusivo entre solo limpieza, ambas líneas y solo Control Poros; inversión, CPM y mezcla editables; 12 olas, alcance deduplicado, frecuencia, persistencia local y CSV.
 
-Universo, Audiencias y Simulador incluyen el gráfico **compradores actuales de pads + audiencia nueva**. El ejemplo 20% / 80% es editable y no representa penetración medida. Los dos grupos se excluyen; el total se conserva. En Simulador, el gráfico reparte el alcance proyectado con igual tasa de exposición supuesta. Incluye metodología, estrategias por grupo y exportación con supuestos. [Definiciones y cálculo](docs/buyer-segments.md).
+Universo, Audiencias y Simulador incluyen el gráfico **compradores actuales de pads + audiencia nueva**. El ejemplo 20% / 80% es editable y no representa penetración medida. La base por estado de compra conserva sus grupos excluyentes. En Simulador, los círculos representan **audiencias de pauta con una intersección supuesta del 10% de la suma de alcances**: la prospección puede incluir compradores actuales. Esta sensibilidad adicional se descuenta del alcance base y se aplica al total final, la frecuencia, las 12 olas y los CSV. Incluye metodología y estrategias por grupo. [Definiciones y cálculo](docs/buyer-segments.md).
 
 ## Datos y límites
 
@@ -47,7 +47,7 @@ Vercel: framework Other, raíz del repositorio, sin instalación ni compilación
 - `src/brief.js`: productos, públicos y medios; páginas del brief de origen.
 - `src/guides.js`: guías de activación y fuentes.
 - `src/universe.js`, `src/simulation.js`: modelo y deduplicación.
-- `src/buyer-segments.js`, `src/buyer-view.js`: clasificación excluyente por compra, gráfico y exportación.
+- `src/buyer-segments.js`, `src/buyer-view.js`: base por estado de compra, cruce de pauta del 10%, gráfico y exportación.
 - `tests/`: pruebas del universo y simulador.
 - `assets/SOURCES.md`: procedencia de los recursos.
 - `docs/implementation.md`: decisiones y verificación.
