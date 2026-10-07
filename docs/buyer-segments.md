@@ -39,4 +39,18 @@ El CSV de reparto distingue base potencial y alcance. Los CSV generales de Unive
 
 18 pruebas automatizadas pasan, incluidas conservación del universo y del alcance para 101 repartos, tres tamaños de base y tres presupuestos; presupuesto cero; entradas inválidas; persistencia; y exportación sin etiquetar la base potencial como personas alcanzadas.
 
-La revisión de integración comprueba los controles de la interfaz, la navegación entre vistas, el diálogo de metodología y los CSV. La revisión visual en producción se registra tras publicar.
+La revisión de integración pasó: controles y validación, navegación entre vistas, persistencia, diálogo de metodología, presupuesto cero, escenario inválido y cuatro descargas de prueba (reparto potencial, análisis de Universo, reparto proyectado y escenario).
+
+Producción verificada en https://pads-fawn.vercel.app/#simulator, implementación `db05ddf1d656eeea7c5b1bf7e9ee713d91164d8b`:
+
+- Vercel reportó despliegue completado.
+- Con $100 M y CPM $8.000, 20% / 80% muestra 2,04 M + 8,18 M = 10,22 M de alcance, sobre bases de 6 M y 24 M.
+- Cambiar a 40% / 60% muestra 4,09 M + 6,13 M y conserva 10,22 M de alcance.
+- Introducir 101 muestra el error y conserva el último gráfico válido.
+- Inversión cero produce alcance cero en ambos perfiles y conserva las bases potenciales.
+- El diálogo de método abre y cierra; Audiencias recupera el reparto 20% / 80% y muestra 6 M + 24 M = 30 M.
+- La descarga real contiene 2.044.556 + 8.178.225 = 10.222.781 personas proyectadas, con supuestos explícitos.
+- Sin errores de consola del dominio. Ancho de documento igual al viewport (1.348 px): sin desbordamiento horizontal en la vista inspeccionada.
+- Se restauró el escenario inicial y se guardó la captura. La revisión visual se realizó en escritorio.
+
+![Compradores actuales y audiencia nueva en el simulador de PADS](PADS_Compradores_Audiencia_Nueva.jpg)
