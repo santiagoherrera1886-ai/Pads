@@ -16,6 +16,8 @@ Repositorio: https://github.com/santiagoherrera1886-ai/Pads
 - Colombia: contorno nacional y cinco clústeres por afinidad, sin segmentación por ciudades.
 - Simulador: reparto exclusivo entre solo limpieza, ambas líneas y solo Control Poros; inversión, CPM y mezcla editables; 12 olas, alcance deduplicado, frecuencia, persistencia local y CSV.
 
+Universo, Audiencias y Simulador incluyen el gráfico **compradores actuales de pads + audiencia nueva**. El ejemplo 20% / 80% es editable y no representa penetración medida. Los dos grupos se excluyen; el total se conserva. En Simulador, el gráfico reparte el alcance proyectado con igual tasa de exposición supuesta. Incluye metodología, estrategias por grupo y exportación con supuestos. [Definiciones y cálculo](docs/buyer-segments.md).
+
 ## Datos y límites
 
 El universo nacional de comunicación es **30 millones**, Colombia 18+, sin límite superior, todos los géneros. Parte de 39.721.750 adultos proyectados por DANE para 2027 y 33,27 M de potencial digital estimado al aplicar tasas TIC 2025 por edad constantes. Para 18–24 se aproxima con la tasa publicada de 12–24. Los 30 M incorporan un margen de planeación; no representan compradores ni alcance garantizado. [Método y fuentes](docs/market-methodology.md).
@@ -45,6 +47,7 @@ Vercel: framework Other, raíz del repositorio, sin instalación ni compilación
 - `src/brief.js`: productos, públicos y medios; páginas del brief de origen.
 - `src/guides.js`: guías de activación y fuentes.
 - `src/universe.js`, `src/simulation.js`: modelo y deduplicación.
+- `src/buyer-segments.js`, `src/buyer-view.js`: clasificación excluyente por compra, gráfico y exportación.
 - `tests/`: pruebas del universo y simulador.
 - `assets/SOURCES.md`: procedencia de los recursos.
 - `docs/implementation.md`: decisiones y verificación.
