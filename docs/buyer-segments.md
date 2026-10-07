@@ -41,3 +41,7 @@ Con inversión cero, ambos alcances, intersección, total ajustado y frecuencia 
 ## Verificación
 
 Pruebas del modelo: caso de la captura, límites 10–90%, rechazo de cruces imposibles, presupuesto cero, conservación de inversión y universo, frecuencia, 12 olas y conciliación exacta del CSV redondeado. 21 pruebas automatizadas pasan. La revisión de integración confirma persistencia del 18,3%, cruce de 1,02 M, alcance final de 9,20 M coherente entre gráfico/KPI/12 olas/CSV, presupuesto cero, diálogo de método, validación del límite 10–90% y recuperación de un reparto incompatible. La revisión visual de producción se registra al publicar.
+
+Producción verificada: https://pads-fawn.vercel.app/#simulator, código `e230996458ab309a3b65033aadad7a1879175dd5`. Vercel confirmó despliegue completado. En navegador, reparto 18,3% / 81,7% muestra 1,87 M + 8,35 M − 1,02 M = 9,2 M; indicador y frecuencia de 1,4 coinciden. Inversión cero devuelve cero en alcance, intersección y frecuencia. El CSV descargado contiene las 12 olas y reconcilia exactamente el alcance final de 9.200.503 personas con una intersección de 1.022.278. No se registraron errores de consola del dominio. Revisión visual de escritorio; presupuesto restablecido a $100 M.
+
+![PADS: intersección del alcance del 10%](PADS_Interseccion_10_Por_Ciento.jpg)
