@@ -1,3 +1,4 @@
+import { MARKET } from './market.js';
 /** Three mutually exclusive planning buckets. Product totals may overlap. */
 export function buildAudienceUniverse({ cleansingOnly, shared, poreCareOnly }) {
   const buckets = { cleansingOnly, shared, poreCareOnly };
@@ -7,8 +8,8 @@ export function buildAudienceUniverse({ cleansingOnly, shared, poreCareOnly }) {
     }
   }
   const unique = cleansingOnly + shared + poreCareOnly;
-  if (!Number.isSafeInteger(unique) || unique <= 0 || unique > 53_399_171) {
-    throw new RangeError('El total debe ser mayor que cero y no superar 53.399.171 personas (población nacional proyectada en 2026).');
+  if (!Number.isSafeInteger(unique) || unique <= 0 || unique > MARKET.adults) {
+    throw new RangeError(`El total debe ser mayor que cero y no superar ${formatPeople(MARKET.adults)} adultos (DANE ${MARKET.year}, Colombia 18+).`);
   }
   return Object.freeze({
     ...buckets,

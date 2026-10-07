@@ -32,5 +32,5 @@ test('rejects missing, nonnumeric, fractional, negative and nonfinite buckets', 
 
 test('accepts editable universe totals and rejects empty or impossible national totals', () => {
   assert.equal(buildAudienceUniverse({cleansingOnly:100,shared:200,poreCareOnly:300}).unique,600);
-  for(const n of [0,53399172]) assert.throws(()=>buildAudienceUniverse({cleansingOnly:0,shared:0,poreCareOnly:n}),RangeError);
+  for(const n of [0,39721751]) assert.throws(()=>buildAudienceUniverse({cleansingOnly:0,shared:0,poreCareOnly:n}),RangeError);
 });

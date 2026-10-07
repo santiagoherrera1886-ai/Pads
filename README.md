@@ -8,19 +8,21 @@ Repositorio: https://github.com/santiagoherrera1886-ai/Pads
 
 ## Secciones funcionales
 
-- Resumen: precio de referencia de $80.000 y enfoque para hombres y mujeres, filtros por línea y tarjetas de producto y audiencia.
-- Universo: referencia demográfica DANE, aproximación económica y sensibilidad explícita a supuestos.
+- Resumen: universo nacional de comunicación de 30 M, precio analizado por separado y enfoque de 18+ para todos los géneros.
+- Universo: base nacional de 30 M, proyección adulta DANE 2027, cálculo digital, fuentes desplegables y análisis separado del precio de $80.000.
 - Audiencias: cinco contextos del brief ampliados a hombres y mujeres, búsqueda, mensajes, señales sugeridas y exportación CSV contextual.
 - Productos: Pads de limpieza y Pads Control Poros, comparativa y navegación al público o medio correspondiente.
 - Medios: guías contextuales de Meta, YouTube, TikTok, Pinterest y CTV, con selección de público/producto, fuentes y copia/descarga.
-- Colombia: mapa continental con siete ciudades seleccionables, sin cifras geográficas inventadas.
+- Colombia: contorno nacional y cinco clústeres por afinidad, sin segmentación por ciudades.
 - Simulador: reparto exclusivo entre solo limpieza, ambas líneas y solo Control Poros; inversión, CPM y mezcla editables; 12 olas, alcance deduplicado, frecuencia, persistencia local y CSV.
 
 ## Datos y límites
 
-No hay una cifra validada de compradores. La base DANE es 39.236.663 adultos en 2026; aplicar el 41,3% de clase media/alta de todas las edades de 2025 da una aproximación de 16,2 M. Este cálculo supone la misma proporción por edad y estabilidad temporal: no es un cruce de microdatos ni capacidad o intención de compra observada. Ver [metodología](docs/market-methodology.md).
+El universo nacional de comunicación es **30 millones**, Colombia 18+, sin límite superior, todos los géneros. Parte de 39.721.750 adultos proyectados por DANE para 2027 y 33,27 M de potencial digital estimado al aplicar tasas TIC 2025 por edad constantes. Para 18–24 se aproxima con la tasa publicada de 12–24. Los 30 M incorporan un margen de planeación; no representan compradores ni alcance garantizado. [Método y fuentes](docs/market-methodology.md).
 
-El precio de referencia es $80.000 por unidad, con SKU y recompra por confirmar. Las sensibilidades de 20%, 35% y 50% son hipótesis, no pronósticos. El simulador permite cualquier reparto válido y abre con 3 M exclusivamente demostrativos (1,5 M / 0,6 M / 0,9 M), presupuesto $100 M y CPM $8.000 supuestos. Desde Universo puede transferirse una hipótesis a Control Poros, con ese supuesto de SKU explícito.
+La referencia económica es un cálculo independiente: adultos 2027 × 41,3% de clase media/alta en todas las edades de 2025 ≈ 16,41 M. No cruza edad, ingresos e internet ni mide capacidad efectiva de compra. Las sensibilidades de 20%, 35% y 50% son hipótesis. El precio de $80.000 tiene SKU y recompra por confirmar; no se aplica automáticamente al algodón.
+
+El simulador abre con 30 M compartidos para comunicación entre ambas líneas, presupuesto $100 M y CPM $8.000 supuestos. La compra de los dos productos no se presupone. Desde Universo se puede aplicar esa base o una hipótesis de precio explícita a Control Poros. El alcance depende de presupuesto y CPM. Los escenarios personalizados se conservan; el anterior ejemplo de 3 M se migra preservando sus supuestos de medios.
 
 El brief anterior contiene 13,7 M, $400 M y packs Cuadrados/Redondos. No se trasladan esas cifras al nuevo proyecto. El PDF describe usos con diferencias de frecuencia, por lo que no se publican indicaciones de aplicación ni promesas clínicas adicionales.
 

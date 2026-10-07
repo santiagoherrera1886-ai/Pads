@@ -1,5 +1,6 @@
+import { MARKET } from './market.js';
 import { buildAudienceUniverse } from './universe.js';
-export const EXAMPLE = Object.freeze({ cleansingOnly:1500000, shared:600000, poreCareOnly:900000, budget:100000000, cpm:8000, cleansingShare:60 });
+export const EXAMPLE = Object.freeze({ cleansingOnly:0, shared:MARKET.planningUniverse, poreCareOnly:0, budget:100000000, cpm:8000, cleansingShare:60 });
 export function simulate(input) {
   const population=buildAudienceUniverse(input);
   const {budget,cpm,cleansingShare}=input;
@@ -20,4 +21,14 @@ export function simulate(input) {
     return {period,spend,impressions,cleanReach,poreReach,overlap,unique,coverage:unique/population.unique,frequency:unique?impressions/unique:0};
   });
   return {population,rows,final:rows.at(-1)};
+}
+
+// Upgrade the old demonstration while retaining its financial inputs; keep custom scenarios.
+export function restoreScenario(current, legacy) {
+ const stored=current||legacy;
+ if(!stored)return {...EXAMPLE};
+ const candidate=!current&&stored.cleansingOnly===1500000&&stored.shared===600000&&stored.poreCareOnly===900000
+  ? {...stored,cleansingOnly:0,shared:MARKET.planningUniverse,poreCareOnly:0} : {...stored};
+ simulate(candidate);
+ return candidate;
 }

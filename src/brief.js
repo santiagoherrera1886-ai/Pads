@@ -1,9 +1,10 @@
+import { MARKET } from './market.js';
 export const project = {
   name: 'PADS Audience Lab',
   brand: 'JGB',
   market: 'Colombia',
-  planningUniverse: null,
-  universeSource: 'DANE y escenarios explícitos de afinidad; compradores aún no medidos.',
+  planningUniverse: MARKET.planningUniverse,
+  universeSource: 'Base nacional de comunicación: población DANE 2027 y estimación propia con tasas TIC 2025; compradores por validar.',
   allocation: null,
   geographyAllocation: null,
   tribeAllocation: null,
@@ -38,7 +39,7 @@ export const products = [
 // Editorial planning hypotheses based on the brief. They are not measured
 // audiences or guaranteed selectable advertising-platform interests.
 export const audiences = [
-  { id: 'productivas', name: 'Vida laboral', context: 'Trabajo y movimiento por la ciudad', need: 'Practicidad y un momento propio', message: 'El cuidado también tiene un lugar en tu día.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
+  { id: 'productivas', name: 'Vida laboral', context: 'Trabajo y ritmo cotidiano', need: 'Practicidad y un momento propio', message: 'El cuidado también tiene un lugar en tu día.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
   { id: 'madres', name: 'Madres y padres', context: 'Equilibrio entre responsabilidades y autocuidado', need: 'Confianza y sencillez', message: 'Un momento para cuidar de ti.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
   { id: 'deportistas', name: 'Deportistas', context: 'Una vida activa', need: 'Una rutina que acompañe su ritmo', message: 'Tu día se mueve. Tu cuidado te acompaña.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
   { id: 'viajeras', name: 'Viajes', context: 'Cambios de entorno y rutinas fuera de casa', need: 'Practicidad y continuidad', message: 'Tu momento de cuidado, donde estés.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
