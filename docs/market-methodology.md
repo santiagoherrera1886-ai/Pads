@@ -62,3 +62,9 @@ Se migra el antiguo ejemplo de 3 M a la base compartida de 30 M conservando pres
 ## Verificación antes de publicar
 
 13 pruebas aprobadas: demografía, tasas, referencia económica, sensibilidad de precio, migración, límites de población adulta y 101 repartos de inversión. Integración DOM aprobada: transferencia de ambos escenarios, conservación de presupuesto/CPM, cero inversión, restablecimiento, cinco clústeres nacionales, cinco guías, tres exportaciones, validación de errores y ausencia de excepciones de la aplicación.
+
+## Verificación en producción
+
+Publicado desde `main`, implementación `8fbd11a`; Vercel confirmó el despliegue completo. En https://pads-fawn.vercel.app/#market se verificó la base de 30 M y el detalle de fuentes. El botón nacional abrió el simulador con 30 M compartidos; inversión 100 M → 0 → 100 M COP produjo cero alcance y frecuencia al invertir cero. El explorador muestra cinco clústeres nacionales y se comprobó Deportistas. Sin errores de aplicación en la consola filtrada por dominio ni desbordamiento horizontal (viewport de 1363 px). No se realizó inspección visual móvil.
+
+![Universo nacional de PADS publicado](PADS_Universo_Nacional_30M.jpg)
