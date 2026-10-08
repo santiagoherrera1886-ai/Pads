@@ -6,7 +6,7 @@ test('demographic sums and distinct affordability/qualification calculations',()
  assert.equal(MARKET.men+MARKET.women,MARKET.adults);
  assert.equal(ECONOMIC_PROXY,16405083);
  const base=marketScenario(), twice=marketScenario({months:2});
- assert.equal(base.threshold,1600000);assert.equal(twice.threshold,800000);
+ assert.equal(base.ticket,70000);assert.equal(base.threshold,1400000);assert.equal(twice.threshold,700000);
  assert.equal(base.qualified,twice.qualified); // No invented demand elasticity.
  assert.equal(marketScenario({qualification:0}).qualified,0);
  assert.equal(marketScenario({qualification:100}).qualified,ECONOMIC_PROXY);
@@ -26,6 +26,8 @@ test('national communication base is justified separately from economic and purc
  assert.equal(DIGITAL_COHORTS[0].observedAge,'12–24');
  assert.ok(MARKET.planningUniverse<DIGITAL_POTENTIAL&&DIGITAL_POTENTIAL<MARKET.adults);
  assert.equal(simulate(EXAMPLE).population.unique,6750000); // fixed PADS category; national 30M is a separate market reference
- assert.equal(marketScenario({price:160000}).qualified,marketScenario().qualified);
+ assert.throws(()=>marketScenario({price:160000}),RangeError);
+ assert.equal(MARKET.price,70000);
+ assert.equal(marketScenario({months:2}).monthlyCost,35000);
  for(const patch of [{price:0},{months:0},{months:25},{budgetShare:0},{budgetShare:101}])assert.throws(()=>marketScenario(patch));
 });
