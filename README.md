@@ -16,7 +16,13 @@ Repositorio: https://github.com/santiagoherrera1886-ai/Pads
 - Colombia: contorno nacional y cinco clústeres por afinidad, sin segmentación por ciudades.
 - Simulador: reparto exclusivo entre solo limpieza, ambas líneas y solo Control Poros; inversión, CPM y mezcla editables; 12 olas, alcance deduplicado, frecuencia, persistencia local y CSV.
 
-Universo, Audiencias y Simulador incluyen el gráfico **compradores actuales de pads + audiencia nueva**. La base categorizada es de **13 M de personas supuestas** (6 M compradores actuales + 7 M audiencia nueva), un subconjunto de planificación distinto del universo nacional de comunicación de 30 M. El reparto es editable y no representa penetración medida. El simulador continúa modelando el universo que configures en su propia sección. La base por estado de compra conserva sus grupos excluyentes. En Simulador, los círculos representan **audiencias de pauta con una intersección supuesta del 10% de la suma de alcances**: la prospección puede incluir compradores actuales. Esta sensibilidad adicional se descuenta del alcance base y se aplica al total final, la frecuencia, las 12 olas y los CSV. Incluye metodología y estrategias por grupo. [Definiciones y cálculo](docs/buyer-segments.md).
+Universo, Audiencias y Simulador incorporan la vista premium **Dos productos · Cuatro audiencias**: Pads normales (**6 M compradores actuales + 7 M personas nuevas = 13 M** de categoría supuesta), Control Poros (**1,5 M compradores actuales + 4,5 M personas nuevas = 6 M**, solo ejemplo editable) y **hasta 10% de overlap entre líneas**, aplicado a la base menor. Ejemplo: 600.000 personas compartidas, para un total de **18,4 M únicos** entre las dos bases, frente a los **30 M de comunicación nacional**, que permanecen intactos. Estos valores NO son penetración medida ni públicos verificados por plataformas. Se editan por separado y persisten en el navegador con la clave `pads-product-audiences-v1`.
+
+El diagrama ilustra el cruce sin escalar las áreas de los círculos. En cada producto, comprador actual y audiencia nueva se excluyen; entre productos una persona puede ser comprador actual de una línea y nueva para la otra. La matriz 2×2 distribuye proporcionalmente el cruce como supuesto, sin deduplicación empírica. Se exportan el resumen de productos, la intersección y los territorios editoriales.
+
+Los cinco clústeres se trabajan como **premium beauty y skincare**: Beauty after work, Self-care sofisticado, Active beauty, Beauty on the go y Beauty discovery 18+. Cada uno presenta afinidades distintas para los cuatro grupos (actuales/nuevos × Pads/Control Poros); estas etiquetas son ideas editoriales para validar en el selector real de medios. Se retiró del discurso de segmentación el foco en compras baratas.
+
+**Importante:** el simulador existente de inversión/CPM/12 olas es un modelo independiente de alcance en medios. Conserva su sensibilidad del 10% de intersección entre **estrategias de pauta**, aplicado a la suma de alcances, aparte del overlap de **universos de producto** mostrado arriba. Los dos conceptos no deben sumarse directamente. [Metodología anterior del modelo de pauta](docs/buyer-segments.md).
 
 ## Datos y límites
 
@@ -47,7 +53,8 @@ Vercel: framework Other, raíz del repositorio, sin instalación ni compilación
 - `src/brief.js`: productos, públicos y medios; páginas del brief de origen.
 - `src/guides.js`: guías de activación y fuentes.
 - `src/universe.js`, `src/simulation.js`: modelo y deduplicación.
-- `src/buyer-segments.js`, `src/buyer-view.js`: base por estado de compra, cruce de pauta del 10%, gráfico y exportación.
+- `src/product-audiences.js`, `src/product-audience-view.js`: universos por producto, cuatro públicos, overlap máximo de 10%, matriz y activación beauty.
+- `src/buyer-segments.js`, `src/buyer-view.js`: modelo previo conservado para sensibilidad de alcance en medios.
 - `tests/`: pruebas del universo y simulador.
 - `assets/SOURCES.md`: procedencia de los recursos.
 - `docs/implementation.md`: decisiones y verificación.
