@@ -60,7 +60,7 @@ test('rendered panel shows both product bases, overlapping calculation and filte
   const h = productAudiencePanel(PRODUCT_AUDIENCE_DEFAULT, { scope: 'audiences', filter: 'all' });
   assert.match(h, /13 M/);
   assert.match(h, /18,4 M/);
-  assert.match(h, /600/); // 600 000 shared represented as 0,6 M
+  assert.match(h, /0,6 M/); // 600 000 shared represented as 0,6 M
   assert.match(h, /Pads normales/);
   assert.match(h, /Control Poros/);
   assert.match(h, /Beauty after work/);
