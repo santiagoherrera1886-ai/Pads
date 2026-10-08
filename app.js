@@ -6,7 +6,7 @@ import {guides, audienceSignals, productSignals} from './src/guides.js';
 import {signalPlan} from './src/signals.js';
 import {BUYER_EXAMPLE, CATEGORY_BUYER_UNIVERSE, restoreBuyerSplit, applyBuyerReachOverlap, roundedBuyerReach, buyerExportRows} from './src/buyer-segments.js';
 import {buyerPanel, buyerVisual} from './src/buyer-view.js';
-import { PRODUCT_AUDIENCE_DEFAULT, calculateProductAudiences, restoreProductAudiencePlan, productAudienceExportRows, PREMIUM_CLUSTERS } from './src/product-audiences.js';
+import { PRODUCT_AUDIENCE_DEFAULT, calculateProductAudiences, productAudienceExportRows, PREMIUM_CLUSTERS } from './src/product-audiences.js';
 import { productAudiencePanel } from './src/product-audience-view.js';
 import {clusterAudiencePlan, clusterExportRows} from './src/cluster-intelligence.js';
 import {clusterCardMetrics, clusterProfileDetails, clusterUniverseMatrix} from './src/cluster-view.js';
@@ -23,8 +23,7 @@ const routes=[['summary','Resumen','home'],['market','Universo','chart'],['audie
 $('#navigation').innerHTML=routes.map(([id,name,glyph])=>`<a href="#${id}" data-route="${id}">${icon(glyph)}<span>${name}</span></a>`).join('');
 let marketState={qualification:35,price:80000,months:1,budgetShare:5};
 let buyerState={...BUYER_EXAMPLE}; // The former 90% local setting no longer controls product sizing.
-let productAudienceState={...PRODUCT_AUDIENCE_DEFAULT};
-try{productAudienceState=restoreProductAudiencePlan(JSON.parse(localStorage.getItem('pads-product-audiences-v1')));}catch{}
+const productAudienceState=PRODUCT_AUDIENCE_DEFAULT; // Fixed category-planning figures for all visitors; ignore old browser overrides.
 let filter='all',query='',mapAudience='all',currentRoute='summary',lastFocus=null,guideContext={medium:'meta',audience:'productivas',product:'limpieza'},simState={...EXAMPLE},savedScenario=false;
 try{const current=JSON.parse(localStorage.getItem('pads-scenario-v3')),legacy=JSON.parse(localStorage.getItem('pads-scenario-v2'));simState=restoreScenario(current,legacy);savedScenario=Boolean(current||legacy);localStorage.setItem('pads-scenario-v3',JSON.stringify(simState));}catch{}
 function saveScenario(){try{localStorage.setItem('pads-scenario-v3',JSON.stringify(simState));savedScenario=true;return true;}catch{return false;}}
@@ -33,7 +32,7 @@ function buyerContext(scope=currentRoute){
  if(scope==='simulator'){const r=simulate(simState);return {universe:r.population.unique,currentShare:buyerState.currentShare,reach:r.final.unique,mode:'reach',id:'buyer-simulator'};}
  return {universe:CATEGORY_BUYER_UNIVERSE,currentShare:buyerState.currentShare,mode:'universe',id:'buyer-'+scope};
 }
-function buyerSection(scope){try{return productAudiencePanel(productAudienceState,{scope,filter:scope==='audiences'?filter:'all'});}catch(error){return `<section class="panel"><p class="notice" role="alert">Revisa los tamaños de los dos productos: ${esc(error.message)}</p><button class="button" data-action="reset-product-audiences">Restablecer escenarios</button></section>`;}}
+function buyerSection(scope){try{return productAudiencePanel(productAudienceState,{scope,filter:scope==='audiences'?filter:'all'});}catch(error){return `<section class="panel"><p class="notice" role="alert">No se pudo mostrar la composición de ambos productos: ${esc(error.message)}</p></section>`;}}
 function refreshBuyerProjection(){const target=$('#buyer-sim-wrap');if(target)target.innerHTML=buyerSection('simulator');}
 function changeBuyerShare(input){
  const value=input.value===''?NaN:Number(input.value),min=Number(input.min),max=Number(input.max),valid=Number.isFinite(value)&&value>=min&&value<=max;
@@ -119,7 +118,6 @@ function exportSim(){try{const r=applyBuyerReachOverlap(simulate(simState),buyer
 function exportMarket(){const r=marketScenario(marketState);download('PADS_Universo_2027.csv',csv([['PADS · Universo de comunicación y escenario de compra'],['Cobertura','Toda Colombia'],['Edad','18+ sin límite superior'],['Género','Todos los géneros'],['Año de planeación',MARKET.year],['Adultos · proyección DANE',MARKET.adults],['Potencial digital · cálculo propio',DIGITAL_POTENTIAL],['Universo de comunicación recomendado',MARKET.planningUniverse],...productAudienceExportRows(productAudienceState),['Método digital','Población 2027 × tasas TIC 2025 constantes; tasa 12–24 como proxy de 18–24'],['Clase media y alta 2025 · todas las edades',MARKET.middleHighShare],['Referencia económica · aproximación propia',ECONOMIC_PROXY],['Método económico','Proporción de todas las edades 2025 aplicada a adultos 2027; sin cruce edad-ingreso ni internet'],['Precio unitario COP',marketState.price],['Meses entre compras',marketState.months],['Presupuesto como porcentaje del ingreso',marketState.budgetShare],['Umbral aritmético de ingreso COP',r.threshold],['Afinidad-acceso-disposición conjunta supuesta (%)',marketState.qualification],['Escenario condicionado · no compradores medidos',r.qualified],['Fuentes población',MARKET.populationUrl],['Fuentes internet',MARKET.internetUrl],['Fuentes ingresos',MARKET.incomeUrl],['Validación','Requiere SKU, distribución y evidencia de disposición de compra al precio real']]),'text/csv;charset=utf-8');toast('Análisis exportado con hipótesis y fuentes.');}
 document.addEventListener('click',async e=>{const el=e.target.closest('[data-action]');if(!el)return;const {action,value}=el.dataset;
  if(action==='export-product-audiences')exportProductAudiences();
- if(action==='reset-product-audiences'){productAudienceState={...PRODUCT_AUDIENCE_DEFAULT};try{localStorage.setItem('pads-product-audiences-v1',JSON.stringify(productAudienceState));}catch{}render();toast('Supuestos por producto restablecidos.');}
  if(action==='buyer-method')showBuyerMethod();
  if(action==='reset-buyer-share'){buyerState={...BUYER_EXAMPLE};try{localStorage.setItem('pads-buyers-v1',JSON.stringify(buyerState));}catch{}render();}
  if(action==='export-buyers')exportBuyers();
@@ -143,7 +141,7 @@ document.addEventListener('click',async e=>{const el=e.target.closest('[data-act
  if(action==='reset-sim'){simState={...EXAMPLE};saveScenario();render();toast('Base nacional de 30 M restablecida.');}
 });
 document.addEventListener('input',e=>{if(e.target.matches('[data-buyer-share]')){changeBuyerShare(e.target);return;}if(e.target.dataset.market){marketState[e.target.dataset.market]=Number(e.target.value);$('#market-results').innerHTML=marketResults();return;}if(e.target.id==='audience-search'){query=e.target.value;$('#audience-results').innerHTML=audienceResults();}if(e.target.dataset.sim){simState[e.target.dataset.sim]=e.target.value===''?NaN:Number(e.target.value);$('#share-value').textContent=simState.cleansingShare+'% limpieza';$('#sim-results').innerHTML=simResults();refreshBuyerProjection();try{simulate(simState);const saved=saveScenario();$('#save-status').textContent=saved?'Escenario válido guardado en este navegador. Valores de planeación editables.':'Escenario válido activo en esta sesión; el navegador no permite guardarlo.';}catch{}}});
-document.addEventListener('change',e=>{if(e.target.matches('[data-product-audience-key], [data-product-overlap]')){const el=e.target,key=el.dataset.productAudienceKey || 'overlapRate',raw=Number(el.value),next={...productAudienceState,[key]:key==='overlapRate'?raw:Math.round(raw*1e6)};try{if(!Number.isFinite(raw)||el.value==='')throw new RangeError('Ingresa un número válido.');calculateProductAudiences(next);productAudienceState=next;try{localStorage.setItem('pads-product-audiences-v1',JSON.stringify(next));}catch{}render();}catch(error){toast(error.message);render();}return;}if(e.target.matches('[data-buyer-share]')&&e.target.getAttribute('aria-invalid')==='true'){e.target.value=buyerState.currentShare;changeBuyerShare(e.target);}if(e.target.id==='guide-audience'){guideContext.audience=e.target.value;renderGuide();$('#guide-audience').focus();}if(e.target.id==='guide-product'){guideContext.product=e.target.value;renderGuide();$('#guide-product').focus();}});
+document.addEventListener('change',e=>{if(e.target.matches('[data-buyer-share]')&&e.target.getAttribute('aria-invalid')==='true'){e.target.value=buyerState.currentShare;changeBuyerShare(e.target);}if(e.target.id==='guide-audience'){guideContext.audience=e.target.value;renderGuide();$('#guide-audience').focus();}if(e.target.id==='guide-product'){guideContext.product=e.target.value;renderGuide();$('#guide-product').focus();}});
 $('.skip-link').addEventListener('click',e=>{e.preventDefault();$('#content').focus();});
 $('#menu-toggle').addEventListener('click',()=>{const open=$('#sidebar').classList.toggle('open');$('#menu-toggle').setAttribute('aria-expanded',String(open));});
 $('#detail-dialog').addEventListener('click',e=>{if(e.target===$('#detail-dialog')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeDialog();}});
