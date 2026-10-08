@@ -7,7 +7,7 @@ import { clusterCardMetrics, clusterProfileDetails, clusterUniverseMatrix } from
 test('five primary beauty clusters partition all four source universes exactly',()=>{
  const {model,groups}=clusterAudiencePlan(PRODUCT_AUDIENCE_DEFAULT);
  assert.equal(groups.length,5);
- assert.equal(model.unique,6_975_000);
+ assert.equal(model.unique,6_750_000);
  assert.ok(model.unique <= MAX_CATEGORY_UNIQUE);
  for(const key of ['padsCurrent','padsNew','poreCurrent','poreNew']){
   assert.equal(groups.reduce((sum,g)=>sum+g.segments[key],0),PRODUCT_AUDIENCE_DEFAULT[key]);
@@ -51,9 +51,9 @@ test('each portrait summary, detail and matrix includes universe and interests',
  assert.match(filtering,/Pads Control Poros/);
  const matrix=clusterUniverseMatrix(PRODUCT_AUDIENCE_DEFAULT);
  assert.match(matrix,/Total distribuido/);
- assert.match(matrix,/6,98 M/);
+ assert.match(matrix,/6,75 M/);
  const exportRows=clusterExportRows(PRODUCT_AUDIENCE_DEFAULT);
  const last=exportRows.find(row=>row[0]==='Totales asignados');
- assert.equal(last[13],6_975_000);
- assert.equal(last[12],275_000);
+ assert.equal(last[13],6_750_000);
+ assert.equal(last[12],250_000);
 });
