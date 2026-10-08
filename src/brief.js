@@ -39,11 +39,11 @@ export const products = [
 // Editorial planning hypotheses based on the brief. They are not measured
 // audiences or guaranteed selectable advertising-platform interests.
 export const audiences = [
-  { id: 'productivas', name: 'Vida laboral', context: 'Trabajo y ritmo cotidiano', need: 'Practicidad y un momento propio', message: 'El cuidado también tiene un lugar en tu día.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
-  { id: 'madres', name: 'Madres y padres', context: 'Equilibrio entre responsabilidades y autocuidado', need: 'Confianza y sencillez', message: 'Un momento para cuidar de ti.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
-  { id: 'deportistas', name: 'Deportistas', context: 'Una vida activa', need: 'Una rutina que acompañe su ritmo', message: 'Tu día se mueve. Tu cuidado te acompaña.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
-  { id: 'viajeras', name: 'Viajes', context: 'Cambios de entorno y rutinas fuera de casa', need: 'Practicidad y continuidad', message: 'Tu momento de cuidado, donde estés.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
-  { id: 'estudiantes', name: 'Estudiantes', context: 'Construcción de hábitos y exploración de tendencias', need: 'Comprender el producto y su lugar en la rutina', message: 'Conoce el paso que estás sumando a tu rutina.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
+  { id: 'productivas', name: 'Vida laboral', context: 'Beauty after work · rutinas faciales y bienestar sofisticado', need: 'Un ritual de belleza al final del día', message: 'Tu rutina de skincare también tiene su momento.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
+  { id: 'madres', name: 'Madres y padres', context: 'Self-care sofisticado · cuidado personal sin estereotipos', need: 'Una pausa propia, con intención y bienestar', message: 'El autocuidado también es un ritual personal.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
+  { id: 'deportistas', name: 'Deportistas', context: 'Active beauty · fitness, wellness y cuidado facial', need: 'Belleza en movimiento y limpieza postentrenamiento', message: 'Después del movimiento, vuelve a tu ritual.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
+  { id: 'viajeras', name: 'Viajes', context: 'Beauty on the go · neceseres, cosmética y viajes', need: 'Conservar el ritual beauty en cualquier destino', message: 'Tu ritual de belleza también viaja contigo.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
+  { id: 'estudiantes', name: 'Estudiantes', context: 'Beauty discovery 18+ · creadores, K-beauty y tutoriales', need: 'Explorar ingredientes y nuevos pasos del skincare', message: 'Descubre el cuidado detrás de cada paso.', products: ['limpieza', 'control-poros'], briefPages: [13, 20, 26] },
 ];
 
 export const channels = [
