@@ -7,16 +7,17 @@ import {
 } from '../src/product-audiences.js';
 import { productAudiencePanel, premiumAudienceDetail } from '../src/product-audience-view.js';
 
-test('normal Pads 6M buyers + 7M new, and 10%-capped cross-product deduplication', () => {
+test('combined Pads and Control Poros stay under 7M with 10%-capped overlap', () => {
   const p = calculateProductAudiences(PRODUCT_AUDIENCE_DEFAULT);
-  assert.equal(p.pads.current, 6_000_000);
-  assert.equal(p.pads.fresh, 7_000_000);
-  assert.equal(p.pads.total, 13_000_000);
-  assert.equal(p.pore.current, 1_500_000);
-  assert.equal(p.pore.fresh, 4_500_000);
-  assert.equal(p.pore.total, 6_000_000);
-  assert.equal(p.overlap, 600_000);
-  assert.equal(p.unique, 18_400_000);
+  assert.equal(p.pads.current, 2_100_000);
+  assert.equal(p.pads.fresh, 2_400_000);
+  assert.equal(p.pads.total, 4_500_000);
+  assert.equal(p.pore.current, 650_000);
+  assert.equal(p.pore.fresh, 2_100_000);
+  assert.equal(p.pore.total, 2_750_000);
+  assert.equal(p.overlap, 275_000);
+  assert.equal(p.unique, 6_975_000);
+  assert.ok(p.unique <= 7_000_000);
   assert.equal(p.remaining, MARKET.planningUniverse - p.unique);
   assert.equal(p.cells.reduce((s, c) => s + c.people, 0), p.overlap);
 });
@@ -58,9 +59,9 @@ test('all five beauty clusters contain four distinct cohort interest sets', () =
 
 test('rendered panel shows both product bases, overlapping calculation and filters', () => {
   const h = productAudiencePanel(PRODUCT_AUDIENCE_DEFAULT, { scope: 'audiences', filter: 'all' });
-  assert.match(h, /13 M/);
-  assert.match(h, /18,4 M/);
-  assert.match(h, /0,6 M/); // 600 000 shared represented as 0,6 M
+  assert.match(h, /4,5 M/);
+  assert.match(h, /6,98 M/);
+  assert.match(h, /0,28 M/); // 275 000 shared represented as 0,28 M
   assert.match(h, /Pads normales/);
   assert.match(h, /Control Poros/);
   assert.match(h, /Beauty after work/);
@@ -70,6 +71,12 @@ test('rendered panel shows both product bases, overlapping calculation and filte
   assert.match(profile, /Control Poros/);
   assert.doesNotMatch(profile, /Pads normales/);
   const rows = productAudienceExportRows(PRODUCT_AUDIENCE_DEFAULT);
-  assert.ok(rows.some(row => row[0] === 'Audiencia única · ambas líneas' && row[1] === 18_400_000));
+  assert.ok(rows.some(row => row[0] === 'Audiencia única · ambas líneas' && row[1] === 6_975_000));
   assert.ok(rows.some(row => row[0] === 'Overlap entre productos (%) · sobre la base menor' && row[1] === 10));
+});
+test('strict 7M unique cap rejects excessive combined product bases and resets invalid saved data', () => {
+  const excessive = { ...PRODUCT_AUDIENCE_DEFAULT, padsNew: 3_000_000 };
+  assert.throws(() => calculateProductAudiences(excessive), /7 millones/);
+  assert.deepEqual(restoreProductAudiencePlan(excessive), PRODUCT_AUDIENCE_DEFAULT);
+  assert.ok(calculateProductAudiences(PRODUCT_AUDIENCE_DEFAULT).unique < 7_000_000);
 });
