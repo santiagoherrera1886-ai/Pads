@@ -22,7 +22,7 @@ Repositorio: https://github.com/santiagoherrera1886-ai/Pads
 
 La matriz también asigna a cada perfil una participación del overlap entre líneas, con la deduplicación calculada una sola vez, y permite exportar cantidades e intereses a CSV. Los valores están definidos en `PRODUCT_AUDIENCE_DEFAULT` y no se cargan desde `localStorage`: configuraciones antiguas de navegadores no pueden modificar las cifras publicadas. El simulador de medios sigue independiente de estas bases de categoría.
 
-**Distinción metodológica**: los 30 M son un potencial nacional amplio de comunicación (no compradores de la categoría). El simulador existente de medios, CPM y 12 olas sigue siendo una herramienta de alcance con base editable, independiente del dimensionamiento de categoría de hasta 7 M. Su supuesto anterior de cruce de pauta sobre la suma de alcances no sustituye ni se suma al overlap de universos de producto. [Metodología de medios](docs/buyer-segments.md).
+**Distinción metodológica**: los 30 M son un potencial nacional amplio de comunicación (no compradores de la categoría). El simulador de alcance por producto y sus 12 olas usa la misma base fija de **6,75 M**: 4,25 M solo Pads, 250.000 compartidos y 2,25 M solo Control Poros. Únicamente pueden variarse presupuesto, CPM supuesto y mezcla financiera; los universos no son editables. El modelo por producto descuenta **una sola vez** la intersección alcanzada, sin volver a restar otro 10%. La nueva sección de matemática permite visualizar otra sensibilidad independiente **por plataforma** sobre el mismo universo, sin sumar dos forecasts teóricos. [Metodología de medios](docs/buyer-segments.md).
 
 ## Datos y límites
 
@@ -30,7 +30,9 @@ El universo nacional de comunicación es **30 millones**, Colombia 18+, sin lím
 
 La referencia económica es un cálculo independiente: adultos 2027 × 41,3% de clase media/alta en todas las edades de 2025 ≈ 16,41 M. No cruza edad, ingresos e internet ni mide capacidad efectiva de compra. Las sensibilidades de 20%, 35% y 50% son hipótesis. El precio de $80.000 tiene SKU y recompra por confirmar; no se aplica automáticamente al algodón.
 
-El simulador abre con 30 M compartidos para comunicación entre ambas líneas, presupuesto $100 M y CPM $8.000 supuestos. La compra de los dos productos no se presupone. Desde Universo se puede aplicar esa base o una hipótesis de precio explícita a Control Poros. El alcance depende de presupuesto y CPM. Los escenarios personalizados se conservan; el anterior ejemplo de 3 M se migra preservando sus supuestos de medios.
+El simulador parte de **6,75 M únicos de categoría**, inversión hipotética de **$100 M COP** y un **CPM global supuesto de $8.000 COP**. Presenta fórmulas de Poisson por producto, curva de 12 olas, alcance único, frecuencia e intersección alcanzada. El universo no admite edición. Ajustar la inversión o el CPM no cambia las bases demográficas ni implica previsión de un medio real.
+
+**Matemática por plataformas y clústeres:** en las secciones Audiencias y Simulador se incluye «La matemática detrás de cada audiencia», con indicadores de trazabilidad, índices editoriales por Meta, YouTube, TikTok, Pinterest y CTV; fórmula explícita de mix de inversión; 12 olas por medio, límites de deduplicación y exportación CSV de ecuaciones, pesos y curvas. Los índices **son calificaciones estratégicas 1–5**, no conteos de usuarios de intereses ni métricas entregadas por plataformas. Todos los cálculos distinguen supuestos de mediciones observadas. [Revisión completa, fórmulas, prueba y fuentes](docs/math-methodology.md).
 
 El brief anterior contiene 13,7 M, $400 M y packs Cuadrados/Redondos. No se trasladan esas cifras al nuevo proyecto. El PDF describe usos con diferencias de frecuencia, por lo que no se publican indicaciones de aplicación ni promesas clínicas adicionales.
 
@@ -55,6 +57,7 @@ Vercel: framework Other, raíz del repositorio, sin instalación ni compilación
 - `src/universe.js`, `src/simulation.js`: modelo y deduplicación.
 - `src/product-audiences.js`, `src/product-audience-view.js`: universos por producto, cuatro públicos, overlap máximo de 10%, matriz y activación beauty.
 - `src/cluster-intelligence.js`, `src/cluster-view.js`: asignación de los cuatro universos a cinco perfiles, matriz y despliegue detallado de intereses.
+- `src/math-foundation.js`, `src/math-view.js`: fórmulas trazables, afinidad estratégica y simulación de saturación por cinco medios.
 - `src/buyer-segments.js`, `src/buyer-view.js`: modelo previo conservado para sensibilidad de alcance en medios.
 - `tests/`: pruebas del universo y simulador.
 - `assets/SOURCES.md`: procedencia de los recursos.
