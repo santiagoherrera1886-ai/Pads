@@ -1,6 +1,13 @@
 import { MARKET } from './market.js';
 import { buildAudienceUniverse } from './universe.js';
-export const EXAMPLE = Object.freeze({ cleansingOnly:0, shared:MARKET.planningUniverse, poreCareOnly:0, budget:100000000, cpm:8000, cleansingShare:60 });
+import { PRODUCT_AUDIENCE_DEFAULT, calculateProductAudiences } from './product-audiences.js';
+const fixed=calculateProductAudiences(PRODUCT_AUDIENCE_DEFAULT);
+export const CATEGORY_SIM_BUCKETS = Object.freeze({
+ cleansingOnly:fixed.pads.total-fixed.overlap,
+ shared:fixed.overlap,
+ poreCareOnly:fixed.pore.total-fixed.overlap
+});
+export const EXAMPLE=Object.freeze({...CATEGORY_SIM_BUCKETS,budget:100000000,cpm:8000,cleansingShare:60});
 export function simulate(input) {
   const population=buildAudienceUniverse(input);
   const {budget,cpm,cleansingShare}=input;
@@ -23,12 +30,16 @@ export function simulate(input) {
   return {population,rows,final:rows.at(-1)};
 }
 
-// Upgrade the old demonstration while retaining its financial inputs; keep custom scenarios.
-export function restoreScenario(current, legacy) {
+// Old browser scenarios cannot modify the fixed PADS buyer-category universe.
+// Only financial what-if settings survive; the product populations stay locked.
+export function restoreScenario(current,legacy){
  const stored=current||legacy;
  if(!stored)return {...EXAMPLE};
- const candidate=!current&&stored.cleansingOnly===1500000&&stored.shared===600000&&stored.poreCareOnly===900000
-  ? {...stored,cleansingOnly:0,shared:MARKET.planningUniverse,poreCareOnly:0} : {...stored};
+ const candidate={...EXAMPLE,
+  budget:Number.isFinite(stored.budget)&&stored.budget>=0&&stored.budget<=1e12?stored.budget:EXAMPLE.budget,
+  cpm:Number.isFinite(stored.cpm)&&stored.cpm>0?stored.cpm:EXAMPLE.cpm,
+  cleansingShare:Number.isFinite(stored.cleansingShare)&&stored.cleansingShare>=0&&stored.cleansingShare<=100?stored.cleansingShare:EXAMPLE.cleansingShare
+ };
  simulate(candidate);
  return candidate;
 }
