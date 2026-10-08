@@ -3,13 +3,14 @@ import { MARKET } from './market.js';
 // Category-planning hypotheses, NOT observed market penetration or platform audience sizes.
 // Pads cotton and Pads Control Poros can share people across products.
 export const PRODUCT_AUDIENCE_DEFAULT = Object.freeze({
-  padsCurrent: 6_000_000,
-  padsNew: 7_000_000,
-  poreCurrent: 1_500_000,
-  poreNew: 4_500_000,
+  padsCurrent: 2_100_000,
+  padsNew: 2_400_000,
+  poreCurrent: 650_000,
+  poreNew: 2_100_000,
   overlapRate: 10,
 });
 export const MAX_PRODUCT_OVERLAP_PERCENT = 10;
+export const MAX_CATEGORY_UNIQUE = 7_000_000; // Strict combined unique ceiling for both product lines.
 
 export const PREMIUM_CLUSTERS = Object.freeze([
   {
@@ -74,8 +75,8 @@ export function calculateProductAudiences(input) {
   // sum: this guarantees that the common group exists in both product bases.
   const overlap = Math.round(Math.min(pads.total, pore.total) * input.overlapRate / 100);
   const unique = pads.total + pore.total - overlap;
-  if (unique > MARKET.planningUniverse) {
-    throw new RangeError('Los públicos únicos combinados no pueden superar los 30 M de la base nacional.');
+  if (unique > MAX_CATEGORY_UNIQUE) {
+    throw new RangeError('Los públicos únicos entre Pads normales y Pads Control Poros no pueden superar los 7 millones. Reduce una o varias audiencias (total después del overlap).');
   }
   // Cross-product 2×2 intersections. Buyer/new status is exclusive only WITHIN
   // a product. A Pads buyer may be a NEW prospect for Control Poros.
@@ -111,6 +112,7 @@ export function productAudienceExportRows(input) {
     ['Cobertura', 'Toda Colombia · 18+ · todos los géneros'],
     ['Estado', 'Supuestos editables, no tamaños certificados por la plataforma'],
     ['Universo de comunicación nacional', p.national],
+    ['Tope estricto combinado de categoría (únicos)', MAX_CATEGORY_UNIQUE],
     ['Pads normales · compradores actuales · supuesto', p.pads.current],
     ['Pads normales · audiencia nueva · supuesto', p.pads.fresh],
     ['Pads normales · universo total', p.pads.total],
