@@ -2,11 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {MARKET} from '../src/market.js';
 import {EXAMPLE,simulate} from '../src/simulation.js';
-import {BUYER_EXAMPLE,restoreBuyerSplit,splitBuyerAudience,buyerExportRows,projectBuyerReach,applyBuyerReachOverlap,roundedBuyerReach} from '../src/buyer-segments.js';
+import {BUYER_EXAMPLE,CATEGORY_BUYER_UNIVERSE,restoreBuyerSplit,splitBuyerAudience,buyerExportRows,projectBuyerReach,applyBuyerReachOverlap,roundedBuyerReach} from '../src/buyer-segments.js';
 
-test('20/80 is an explicit example and conserves the 30M national base',()=>{
- const r=splitBuyerAudience({universe:MARKET.planningUniverse,...BUYER_EXAMPLE});
- assert.equal(r.current,6e6);assert.equal(r.newAudience,24e6);assert.equal(r.overlap,0);
+test('6M current + 7M new is an explicit category example separate from the 30M national base',()=>{
+ const r=splitBuyerAudience({universe:CATEGORY_BUYER_UNIVERSE,...BUYER_EXAMPLE});
+ assert.equal(r.current,6e6);assert.equal(r.newAudience,7e6);assert.equal(r.overlap,0);
+ assert.equal(MARKET.planningUniverse,30e6);
  assert.equal(r.current+r.newAudience,r.universe);
 });
 test('all shares give exclusive counts and conserve projected reach across budget levels',()=>{
