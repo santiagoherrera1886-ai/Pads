@@ -36,7 +36,7 @@ export function productAudiencePanel(state, { scope = 'audiences', filter = 'all
       <p>Separamos Pads normales y Pads Control Poros. Cada uno tiene sus compradores actuales y sus oportunidades de descubrimiento. Las dos líneas pueden convivir en una misma persona.</p></div>
       <span class="pa-scope">Toda Colombia · 18+ · todos los géneros</span>
     </div>
-    <div class="pa-flag"><b>HIPÓTESIS EDITABLE</b> Los tamaños de categoría y el overlap no son mediciones de JGB, Meta ni DANE. Los <strong>30 M</strong> nacionales son la base amplia de comunicación, no compradores de pads. <strong>Tope conjunto de categoría: 7 M únicos después del overlap.</strong></div>
+    <div class="pa-flag"><b>ESCENARIO FIJO · SUPUESTO DE PLANEACIÓN</b> Los tamaños de categoría y el overlap no son mediciones de JGB, Meta ni DANE. Los <strong>30 M</strong> nacionales son la base amplia de comunicación, no compradores de pads. <strong>Tope conjunto de categoría: 7 M únicos después del overlap.</strong></div>
     <div class="pa-products">
       <div class="pa-product-card">
         <div class="pa-product-head"><img src="assets/pads-redondos.png" alt="Pads de algodón de JGB" loading="lazy"><div><span>01 · RITUAL DE LIMPIEZA</span><h3>Pads normales</h3><p>Algodón, limpieza, desmaquillado y rutinas beauty.</p></div><strong>${fm(m.pads.total)}</strong></div>
@@ -44,10 +44,7 @@ export function productAudiencePanel(state, { scope = 'audiences', filter = 'all
           ${audienceCard('Ya compran Pads', m.pads.current, true, 'normal')}
           ${audienceCard('Por conquistar', m.pads.fresh, false, 'normal')}
         </div>
-        <div class="pa-editors">
-          <label>Compradores actuales <span>millones</span><input type="number" min="0" max="7" step="0.05" value="${state.padsCurrent / 1e6}" data-product-audience-key="padsCurrent"></label>
-          <label>Audiencia nueva <span>millones</span><input type="number" min="0" max="7" step="0.05" value="${state.padsNew / 1e6}" data-product-audience-key="padsNew"></label>
-        </div>
+        <div class="pa-fixed-summary"><span>Distribución de planeación establecida</span><strong>${fm(m.pads.current)} actuales <span>+</span> ${fm(m.pads.fresh)} nuevos</strong></div>
       </div>
       <div class="pa-product-card pore">
         <div class="pa-product-head"><img src="assets/pads-control-poros.png" alt="Pads Control Poros de JGB" loading="lazy"><div><span>02 · SKINCARE DE TRATAMIENTO</span><h3>Pads Control Poros</h3><p>Skin education, poros y descubrimiento de rutinas.</p></div><strong>${fm(m.pore.total)}</strong></div>
@@ -55,10 +52,7 @@ export function productAudiencePanel(state, { scope = 'audiences', filter = 'all
           ${audienceCard('Ya compran Control Poros', m.pore.current, true, 'pore')}
           ${audienceCard('Por conquistar', m.pore.fresh, false, 'pore')}
         </div>
-        <div class="pa-editors">
-          <label>Compradores actuales <span>millones</span><input type="number" min="0" max="7" step="0.05" value="${state.poreCurrent / 1e6}" data-product-audience-key="poreCurrent"></label>
-          <label>Audiencia nueva <span>millones</span><input type="number" min="0" max="7" step="0.05" value="${state.poreNew / 1e6}" data-product-audience-key="poreNew"></label>
-        </div>
+        <div class="pa-fixed-summary"><span>Distribución de planeación establecida</span><strong>${fm(m.pore.current)} actuales <span>+</span> ${fm(m.pore.fresh)} nuevos</strong></div>
       </div>
     </div>
     <div class="pa-overlap-grid">
@@ -82,10 +76,7 @@ export function productAudiencePanel(state, { scope = 'audiences', filter = 'all
           </g>
           <text x="326" y="339" text-anchor="middle" fill="#8b779c" font-size="11">Overlap referido a la audiencia menor · áreas ilustrativas, no a escala</text>
         </svg>
-        <div class="pa-slider-box"><label for="${id}-overlap">Overlap entre líneas <strong>${fp(m.overlapRate)}</strong></label>
-          <input id="${id}-overlap" type="range" min="0" max="10" step="0.5" value="${m.overlapRate}" data-product-overlap>
-          <div><span>0% · sin cruce</span><span>10% · máximo supuesto</span></div>
-        </div>
+        <div class="pa-fixed-overlap"><span>Overlap fijo entre las dos líneas</span><strong>${fp(m.overlapRate)}</strong><small>Aplicado a la base menor (${fm(Math.min(m.pads.total, m.pore.total))}). Se descuenta una sola vez.</small></div>
       </div>
       <div class="pa-dedup">
         <span class="pa-caption">UNIVERSO ÚNICO ENTRE LOS DOS PRODUCTOS · MÁXIMO 7 M</span><strong>${fm(m.unique)}</strong><p class="pa-max-note">Techo conjunto: ${fm(MAX_CATEGORY_UNIQUE)} de personas únicas.</p>
@@ -107,8 +98,8 @@ export function productAudiencePanel(state, { scope = 'audiences', filter = 'all
         <p>Elige un perfil para ver cuatro territorios distintos: comprador actual y audiencia nueva de cada línea. Son afinidades e ideas de contenido por validar en cada plataforma, no intereses garantizados de pauta ni grupos con tamaños medidos.</p></div>
       <div class="pa-cluster-list">${clusterAudiencePlan(state).groups.map(g => scopeClusterCard(g, filter, g)).join('')}</div>
     </div>` : '<p class="pa-more">La matriz de intereses premium por perfil está en <a href="#audiences">Audiencias ↗</a>. Este módulo de producto no altera el modelo independiente de inversión, CPM y 12 olas.</p>'}
-    <div class="pa-actions"><button class="button" data-action="reset-product-audiences">Restablecer escenarios ↺</button><button class="button primary" data-action="export-product-audiences">Exportar universos y overlap ↓</button></div>
-    <p class="pa-footnote">Base de planeación editorial limitada a 7 millones únicos entre las líneas, no dato de penetración, compra o reach medido. Para activar se deben validar categoría, disponibilidad comercial, audiencias y datos de ventas. La comunicación nacional permanece en 30 M.</p>
+    <div class="pa-actions"><button class="button primary" data-action="export-product-audiences">Exportar universos y overlap ↓</button></div>
+    <p class="pa-footnote">Escenario fijo de planeación editorial (no editable desde la interfaz), limitado a 7 millones únicos entre las líneas. No es un dato observado de penetración, compra o reach. Para activar se deben validar categoría, disponibilidad comercial, audiencias y datos de ventas. La comunicación nacional permanece en 30 M.</p>
   </section>`;
 }
 export function premiumAudienceDetail(audience, filter = 'all') {
