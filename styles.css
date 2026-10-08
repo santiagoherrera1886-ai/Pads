@@ -230,3 +230,17 @@ dialog:has(.ci-profile-details){max-width:1060px}
 .pa-max-note{font-size:10px!important;color:#7e5d96!important}
 @media(max-width:900px){.ci-profile-top{grid-template-columns:repeat(2,minmax(0,1fr))}.ci-matrix-wrap{padding:16px}.pa-cluster-volume{white-space:normal;text-align:center}}
 @media(max-width:600px){.ci-card-kpis{gap:5px}.ci-card-metrics{padding:9px 7px}.ci-card-kpis b{font-size:13px}.ci-profile-details{padding:14px}.ci-detail-grid,.ci-activation{grid-template-columns:1fr}.ci-profile-top b{font-size:20px}.ci-matrix-wrap{margin-top:15px;padding:12px}.pa-cluster-volume{display:none}}
+
+
+/* Read-only category universe: no editable controls or overlap sliders. */
+.pa-fixed-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid #dce5f1;padding:14px 2px 0;margin-top:17px}
+.pa-product-card.pore .pa-fixed-summary{border-color:#e6d8f0}
+.pa-fixed-summary>span{font-size:10px;font-weight:600;color:#7e6d8d}
+.pa-fixed-summary>strong{font-size:13px;font-weight:750;color:#295eb7;letter-spacing:-.2px}
+.pa-product-card.pore .pa-fixed-summary>strong{color:#8522bd}
+.pa-fixed-summary>strong>span{font-weight:400;padding:0 4px;color:#957fa4}
+.pa-fixed-overlap{display:flex;align-items:center;gap:8px 15px;flex-wrap:wrap;margin:8px 12px 0;padding:13px 15px;background:#f0e7fa;border:1px solid #e4d4ee;border-radius:12px}
+.pa-fixed-overlap>span{font-size:12px;font-weight:650;color:#6b5080}
+.pa-fixed-overlap>strong{font-size:19px;color:#66309d;margin-left:auto}
+.pa-fixed-overlap>small{flex-basis:100%;font-size:10px;line-height:1.5;color:#927da2}
+@media(max-width:550px){.pa-fixed-summary{align-items:flex-start;flex-direction:column;gap:6px}.pa-fixed-overlap>strong{margin-left:0}}
