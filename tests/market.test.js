@@ -25,7 +25,7 @@ test('national communication base is justified separately from economic and purc
  assert.ok(Math.abs(DIGITAL_POTENTIAL-33274171.1595196)<.01);
  assert.equal(DIGITAL_COHORTS[0].observedAge,'12–24');
  assert.ok(MARKET.planningUniverse<DIGITAL_POTENTIAL&&DIGITAL_POTENTIAL<MARKET.adults);
- assert.equal(simulate(EXAMPLE).population.unique,MARKET.planningUniverse);
+ assert.equal(simulate(EXAMPLE).population.unique,6750000); // fixed PADS category; national 30M is a separate market reference
  assert.equal(marketScenario({price:160000}).qualified,marketScenario().qualified);
  for(const patch of [{price:0},{months:0},{months:25},{budgetShare:0},{budgetShare:101}])assert.throws(()=>marketScenario(patch));
 });
