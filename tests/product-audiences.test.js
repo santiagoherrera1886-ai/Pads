@@ -67,6 +67,13 @@ test('rendered panel shows both product bases, overlapping calculation and filte
   assert.match(h, /Beauty after work/);
   assert.match(h, /K-beauty/);
   assert.doesNotMatch(h, /data-buyer-share/);
+  assert.doesNotMatch(h, /data-product-audience-key|data-product-overlap|reset-product-audiences/);
+  assert.doesNotMatch(h, /<input[\\s>]/);
+  assert.match(h, /ESCENARIO FIJO/);
+  assert.match(h, /Overlap fijo entre las dos líneas/);
+  assert.match(h, /2,1 M actuales/);
+  assert.match(h, /1,9 M nuevos/);
+
   const profile = premiumAudienceDetail('estudiantes', 'control-poros');
   assert.match(profile, /Control Poros/);
   assert.doesNotMatch(profile, /Pads normales/);
