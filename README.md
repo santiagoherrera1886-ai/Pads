@@ -9,7 +9,7 @@ Repositorio: https://github.com/santiagoherrera1886-ai/Pads
 ## Secciones funcionales
 
 - Resumen: universo nacional de comunicación de 30 M, precio analizado por separado y enfoque de 18+ para todos los géneros.
-- Universo: base nacional de 30 M, proyección adulta DANE 2027, cálculo digital, fuentes desplegables y análisis separado del precio de $80.000.
+- Universo: cadena matemática auditable desde DANE 2027 (población 18+, edad y sexo), tasas TIC 2025 y coeficientes de planeación; análisis separado del ticket medio fijo de $70.000.
 - Audiencias: cinco contextos del brief ampliados a hombres y mujeres, búsqueda, mensajes, señales sugeridas y exportación CSV contextual.
 - Productos: Pads de limpieza y Pads Control Poros, comparativa y navegación al público o medio correspondiente.
 - Medios: guías contextuales de Meta, YouTube, TikTok, Pinterest y CTV, con selección de público/producto, fuentes y copia/descarga.
@@ -28,7 +28,9 @@ La matriz también asigna a cada perfil una participación del overlap entre lí
 
 El universo nacional de comunicación es **30 millones**, Colombia 18+, sin límite superior, todos los géneros. Parte de 39.721.750 adultos proyectados por DANE para 2027 y 33,27 M de potencial digital estimado al aplicar tasas TIC 2025 por edad constantes. Para 18–24 se aproxima con la tasa publicada de 12–24. Los 30 M incorporan un margen de planeación; no representan compradores ni alcance garantizado. [Método y fuentes](docs/market-methodology.md).
 
-La referencia económica es un cálculo independiente: adultos 2027 × 41,3% de clase media/alta en todas las edades de 2025 ≈ 16,41 M. No cruza edad, ingresos e internet ni mide capacidad efectiva de compra. Las sensibilidades de 20%, 35% y 50% son hipótesis. El precio de $80.000 tiene SKU y recompra por confirmar; no se aplica automáticamente al algodón.
+La referencia económica es un cálculo independiente: adultos 2027 × 41,3% de clase media/alta en todas las edades de 2025 ≈ 16,41 M. No cruza edad, ingresos e internet ni mide capacidad efectiva de compra. Las sensibilidades de 20%, 35% y 50% son hipótesis. El **ticket medio de $70.000 COP por transacción** es una premisa comercial fija, no el precio de cada SKU. La periodicidad de transacciones y los tamaños de las audiencias no se deducen del ticket.
+
+**Trazabilidad DANE 2027:** P(18+) = Σ edades proyectadas por DANE = 39.721.750; D(2027) = Σ P(edad,2027) × tasa_TIC(edad,2025) = 33,27 M (estimación propia); C = D × k_comunicación = 30 M (coeficiente estratégico); U_PADS = 4,5 M + 2,5 M − 0,25 M = 6,75 M (hipótesis de categoría fija). La relación U_PADS/C = 22,5% es **un coeficiente inverso por construcción**, no una penetración observada en DANE. El 41,3% de clases media/alta GEIH 2025 aplicado a población adulta 2027 es una proxy independiente de ingresos: no se multiplica por la tasa TIC sin datos cruzados. La plataforma añade sensibilidad digital ±5 p.p., límites de Fréchet para intersección ingreso-digital, y ticket medio 70 mil: gasto_mensual = ticket/meses; ingreso_aritmético = gasto_mensual/(presupuesto%/100). [Metodología DANE y ticket](docs/market-methodology.md). Se usa el mismo marco resumido en todas las secciones y el cálculo detallado en Universo.
 
 El simulador parte de **6,75 M únicos de categoría**, inversión hipotética de **$100 M COP** y un **CPM global supuesto de $8.000 COP**. Presenta fórmulas de Poisson por producto, curva de 12 olas, alcance único, frecuencia e intersección alcanzada. El universo no admite edición. Ajustar la inversión o el CPM no cambia las bases demográficas ni implica previsión de un medio real.
 
@@ -58,6 +60,7 @@ Vercel: framework Other, raíz del repositorio, sin instalación ni compilación
 - `src/product-audiences.js`, `src/product-audience-view.js`: universos por producto, cuatro públicos, overlap máximo de 10%, matriz y activación beauty.
 - `src/cluster-intelligence.js`, `src/cluster-view.js`: asignación de los cuatro universos a cinco perfiles, matriz y despliegue detallado de intereses.
 - `src/math-foundation.js`, `src/math-view.js`: fórmulas trazables, afinidad estratégica y simulación de saturación por cinco medios.
+- `src/dane-audience-math.js`, `src/dane-audience-view.js`: procedencia DANE y análisis de sensibilidad TIC/ingresos, ticket medio fijo 70.000, trazabilidad por sección.
 - `src/buyer-segments.js`, `src/buyer-view.js`: modelo previo conservado para sensibilidad de alcance en medios.
 - `tests/`: pruebas del universo y simulador.
 - `assets/SOURCES.md`: procedencia de los recursos.
