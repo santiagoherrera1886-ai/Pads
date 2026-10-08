@@ -1,7 +1,8 @@
 import { MARKET } from './market.js';
 
 // A visible illustration, not a measured category penetration rate.
-export const BUYER_EXAMPLE = Object.freeze({ currentShare: 20 });
+export const CATEGORY_BUYER_UNIVERSE = 13_000_000; // Editable planning base; not measured category penetration.
+export const BUYER_EXAMPLE = Object.freeze({ currentShare: 6_000_000 / CATEGORY_BUYER_UNIVERSE * 100 });
 export const BUYER_REACH_OVERLAP_PERCENT = 10;
 
 // Additional planning sensitivity between media strategies, not buyer status.
