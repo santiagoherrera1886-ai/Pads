@@ -1,70 +1,97 @@
-# PADS · Universo nacional y análisis de precio
+# PADS JGB · Metodología matemática DANE, audiencias y ticket medio
 
-Actualización: 7 de octubre de 2026. Horizonte de planeación: 2027.
+**Actualización 8 de octubre de 2026.** Esta es la metodología vigente. Los informes de implementación anteriores describen escenarios históricos reemplazados; el tablero actual muestra cifras de categoría fijas y ticket medio de **$70.000 COP por transacción**.
 
-## Universo de comunicación: 30 millones
+## 1. Población adulta DANE 2027
 
-Cobertura: toda Colombia, incluidas zonas urbanas, rurales y territorio insular; personas de 18 años en adelante, sin límite superior y todos los géneros. Los cinco clústeres describen hábitos; no son filtros de ciudad, género ni grupos exclusivos de personas.
+Proyecciones de población nacional DANE basadas en el CNPV 2018, serie 2018–2070, desagregación por sexo y edad. Se suman las edades desde **18 años, sin máximo superior, en toda Colombia**. La fuente demográfica agrupa por sexo; las campañas no excluyen identidades de género.
 
-| Concepto | Personas | Interpretación |
-|---|---:|---|
-| Adultos, proyección DANE 2027 | 39.721.750 | Marco demográfico |
-| Potencial digital, cálculo propio | 33.274.171 | Aproximación con tasas de internet 2025 constantes |
-| Universo nacional de comunicación | 30.000.000 | Decisión de planeación con margen; no alcance garantizado |
-| Referencia económica, cálculo propio | 16.405.083 | Aproximación con proporción de clase media/alta; no compradores |
+- Hombres proyectados: **19.166.107**.
+- Mujeres proyectadas: **20.555.643**.
+- Base total P(18+, 2027): **39.721.750**, calculada también por suma de edades.
 
-Las referencias digital y económica son cálculos independientes. No hay un cruce de personas por edad, ingresos e internet; no se presenta la referencia económica como un subconjunto observado de los 30 M.
+**Identidad:** `P_adultos = Σ_(a≥18) P(2027,a) = P_hombres + P_mujeres`.
 
-### Población y uso de internet
+Fuente DANE: https://www.dane.gov.co/index.php/estadisticas-por-tema/demografia-y-poblacion/proyecciones-de-poblacion
 
-[DANE, proyección nacional por edad simple 2018–2070](https://www.dane.gov.co/files/censo2018/proyecciones-de-poblacion/Nacional/PPED-AreaSexoEdadNac-2018-2070.xlsx), actualización 18 de julio de 2025. Hoja `PobNacionalxÁreaSexoEdad`, fila 39, año 2027 y área Total. Se suman edades 18–100+ en ambos sexos (columnas HA:KW para edades 0–100+). Hombres adultos: 19.166.107; mujeres adultas: 20.555.643. La clasificación por sexo del DANE no mide identidad de género. Total nacional de todas las edades: 53.712.233; los menores de 18 no integran la base.
+Serie utilizada: https://www.dane.gov.co/files/censo2018/proyecciones-de-poblacion/Nacional/PPED-AreaSexoEdadNac-2018-2070.xlsx
 
-[DANE, anexo TIC en hogares 2025](https://www.dane.gov.co/files/operaciones/TICH/anex-TICH-2025.xlsx), publicación 30 de septiembre de 2026. Hoja C.14, celdas P16:P18, porcentajes nacionales por edad. [Boletín, gráfico 30](https://www.dane.gov.co/files/operaciones/TICH/bol-TICH-2025.pdf).
+## 2. Población potencialmente digital (estimación propia)
 
-| Grupo adulto | Población 2027 | Tasa TIC 2025 aplicada | Digital estimado |
+Se utiliza la serie TIC DANE 2025, publicada el 30 de septiembre de 2026 y estimada mediante ECV. Para cada franja etaria:
+
+| Edad proyectada 2027 | Personas | Tasa TIC 2025 | Advertencia |
+|---|---:|---:|---|
+| 18–24 | 6.151.801 | 93,8184% | Tasa publicada de 12–24 aplicada como proxy a 18–24. |
+| 25–54 | 22.490.699 | 91,1285% | Se mantiene tasa 2025 para 2027. |
+| 55+ | 11.079.250 | 63,2463% | Se mantiene tasa 2025 para 2027. |
+| Total | **39.721.750** | No corresponde promediar tasas | Usar ponderación por población. |
+
+**Fórmula:** `D_2027 = Σ_edad [P_2027(edad) × tasa_uso_internet_2025(edad)] = 33.274.171,16` personas digitales teóricas. No es la cifra oficial proyectada de usuarios de internet del DANE, ni el alcance real de una plataforma.
+
+Sensibilidad hipotética (NO IC estadístico): `D(δ) = Σ_edad P_edad × max(0, min(1, tasa_edad+δ))` con δ = −0,05; 0; +0,05. Se presenta en pantalla sin alterar los universos PADS.
+
+Fuente TIC: https://www.dane.gov.co/index.php/estadisticas-por-tema/tecnologia-e-innovacion/tecnologias-de-la-informacion-y-las-comunicaciones-tic/indicadores-basicos-de-tic-en-hogares
+
+Anexo: https://www.dane.gov.co/files/operaciones/TICH/anex-TICH-2025.xlsx
+
+## 3. Universo nacional de comunicación: 30 millones
+
+Se adopta un **coeficiente de planeación**, no una tasa de inventario publicitario medida:
+
+`C = D × k_comunicacion = 33.274.171,16 × (30.000.000 / 33.274.171,16) = 30.000.000`.
+
+Así, `k_comunicacion ≈ 90,16%` y se deja margen de aproximadamente 3,27 M respecto del potencial digital propio. La decisión de fijar C en 30 M es del proyecto, no una estadística DANE. No se restringe por ciudades.
+
+## 4. Universo fijo de la categoría: 6,75 millones únicos
+
+El modelo usa cuatro bases **estratégicas**, NO tamaños de compradores registrados por el DANE:
+
+| Línea | Compradores actuales supuestos | Nuevos supuestos | Total |
 |---|---:|---:|---:|
-| 18–24 | 6.151.801 | 93,8184%* | 5.771.520 |
-| 25–54 | 22.490.699 | 91,1285% | 20.495.430 |
-| 55+ | 11.079.250 | 63,2463% | 7.007.221 |
+| Pads normales | 2.100.000 | 2.400.000 | 4.500.000 |
+| Pads Control Poros | 600.000 | 1.900.000 | 2.500.000 |
 
-*Para 18–24 se aproxima con la tasa publicada de 12–24. Los cálculos usan la precisión completa del anexo, no las tasas redondeadas de esta tabla.*
+Overlap de producto: `O = 10% × min(4.500.000,2.500.000) = 250.000`.
 
-Sumar población por grupo × tasa correspondiente produce 33.274.171,1595196. Mantener las tasas de 2025 hasta 2027 no incorpora cambios de uso. Es una estimación propia, no una proyección oficial de usuarios digitales del DANE. Las fuentes y las huellas de los archivos están en `national-source-analysis.json`.
+Únicos: `U = 4.500.000 + 2.500.000 − 250.000 = 6.750.000`.
 
-Los 30 M equivalen a 90,16% de la estimación digital; el margen de 9,84% es una decisión de planeación y no una medición de inventario. No certifica compradores, afinidad, intención ni disponibilidad en una plataforma. No se suman identidades o usuarios de distintos medios.
+**Coeficiente inverso meramente descriptivo:** `U / C = 6,75M / 30M = 22,5%`. Multiplicar 30 M × 22,5% permite reconstruir el escenario, pero **no significa que el DANE estime un 22,5% de consumidores de pads**. Para justificar empíricamente esa proporción harían falta estudios de compra y uso, fuentes de categoría, CRM comparable o paneles con un periodo definido.
 
-## Precio de referencia: $80.000
+Las cifras y el overlap están fijos y no se editan desde la web. Los cinco clústeres beauty reciben participaciones normalizadas por cada cohorte, con conservación de totales, pero esas ponderaciones también son **editoriales, no prevalencias observadas**. Más detalle en [metodología matemática de campañas](math-methodology.md).
 
-El precio aplica al producto analizado, con SKU y frecuencia de recompra por confirmar. No se asigna automáticamente a los pads de algodón. La transferencia de la hipótesis de precio a Control Poros es un supuesto visible, no una identificación confirmada del SKU.
+## 5. Contexto económico y límites de inferencia
 
-[DANE, Clases Sociales 2025](https://www.dane.gov.co/files/operaciones/PM/cp-PMClasesSociales-2025.pdf), publicado 12 de agosto de 2026: clase media 38,0% y alta 3,3%, población de todas las edades. Aproximación propia: 39.721.750 adultos en 2027 × 0,413 = 16.405.082,75, redondeado 16.405.083. Supone igual proporción por edad y estabilidad 2025–2027; no es un cruce de microdatos ni capacidad efectiva de compra.
+DANE reporta para 2025 el **38,0% clase media y 3,3% clase alta** para la población total. Se aplica el 41,3% a los adultos proyectados 2027 como una **proxy** de referencia económica:
 
-La calculadora mantiene separado el diagnóstico de presupuesto de la cantidad hipotética de personas:
+`E_proxy = 39.721.750 × (0,38 + 0,033) ≈ 16.405.083`.
 
-- Costo mensual equivalente = precio / meses entre compras.
-- Umbral aritmético de ingreso = costo mensual / proporción presupuestada.
-- Con $80.000 cada mes y presupuesto del 5%: $1.600.000 por persona al mes; cada dos meses: $800.000. No es salario mínimo requerido ni una regla de asequibilidad.
-- El límite inferior de clase media 2025 es $943.791 por persona del hogar al mes. No es salario individual ni ingreso disponible.
-- Escenario condicionado = referencia económica × porcentaje conjunto supuesto de afinidad, acceso y disposición al precio. 20%: 3.281.017; 35%: 5.741.779; 50%: 8.202.542.
+No es una tabla cruzada por edad, internet, disposición a comprar y ciudad. No sirve para reducir automáticamente los 6,75 M. Si solo se conocen dos tamaños `D` y `E` dentro de la población adulta `P`, las únicas cotas lógicas de su intersección son:
 
-Estos porcentajes no están medidos: no son compradores, ventas ni intervalos de confianza. Cambiar el precio no inventa una elasticidad de demanda; modifica el diagnóstico de presupuesto. Faltan datos de SKU, distribución, categoría y disposición a pagar. La clase social no excluye compras ocasionales fuera de esos grupos. Estos escenarios no reducen automáticamente los 30 M de comunicación.
+`max(0,D + E − P) ≤ |D ∩ E| ≤ min(D,E)`.
 
-## Simulador y continuidad
+Estas cotas son condicionales a los valores de referencia y **no constituyen intervalos de confianza**.
 
-La base inicial es 30 M compartidos para comunicación entre limpieza y Control Poros, sin personas exclusivas asignadas arbitrariamente. No supone que compren ambas líneas. El modelo de saturación usa presupuesto, CPM y reparto de inversión; deduplica la intersección y calcula frecuencia = impresiones / únicos. Doce olas reparten presupuesto uniforme. Los parámetros de medios son supuestos y el resultado no es alcance medido.
+Fuente: https://www.dane.gov.co/files/operaciones/PM/cp-PMClasesSociales-2025.pdf
 
-Con base totalmente compartida y CPM común, cambiar solo el reparto por producto conserva el alcance combinado y modifica los alcances por línea y el solapamiento. La inversión cero produce alcance, impresiones y frecuencia cero.
+## 6. Ticket medio del proyecto: $70.000 COP
 
-El botón de base nacional lleva 30 M al simulador. El botón del análisis de precio lleva solo la hipótesis condicionada a Control Poros y queda identificada en la exportación. Los CSV de mercado y escenario incluyen cobertura, edad, género, valores y fuentes; el de audiencias incluye el universo global sin atribuir tamaños a perfiles.
+El proyecto utiliza **$70.000 COP por transacción como ticket medio fijo**; no es precio individual de cada presentación o SKU, no viene del DANE y no se modifica mediante la interfaz.
 
-Se migra el antiguo ejemplo de 3 M a la base compartida de 30 M conservando presupuesto, CPM y mix. Se mantienen los escenarios personalizados válidos y el registro anterior; la nueva persistencia usa `pads-scenario-v3`. El máximo del simulador es la población adulta nacional proyectada, no la población de todas las edades.
+Si se supone una transacción cada `m` meses y que el gasto representa una fracción `q` del ingreso mensual per cápita:
 
-## Verificación antes de publicar
+- `Gasto_mensual_equivalente = 70.000 / m`.
+- `Umbral_ingreso_aritmetico = (70.000 / m) / (q/100)`.
+- `Ratio_referencia_2025 = (70.000 / m) / 943.791`. El denominador es el umbral inferior de clase media informado por DANE 2025, no el ingreso de cada individuo.
 
-13 pruebas aprobadas: demografía, tasas, referencia económica, sensibilidad de precio, migración, límites de población adulta y 101 repartos de inversión. Integración DOM aprobada: transferencia de ambos escenarios, conservación de presupuesto/CPM, cero inversión, restablecimiento, cinco clústeres nacionales, cinco guías, tres exportaciones, validación de errores y ausencia de excepciones de la aplicación.
+**Ejemplo:** con una transacción mensual y 5% del ingreso: gasto = **$70.000**, ingreso aritmético equivalente = **$1.400.000/mes**; razón frente a $943.791 ≈ **7,4%**. Esto NO afirma que una persona necesite ganar ese ingreso para comprar, ni describe demanda, precio unitario por SKU, ingreso disponible o elasticidad.
 
-## Verificación en producción
+Las sensibilidades editoriales del 20%, 35% o 50% siguen siendo escenarios **sin observación**, no demanda estimada. El mismo ticket se utiliza en Resumen, Universo, paneles metodológicos y exportaciones. Cambiar meses o % de presupuesto cambia cálculos económicos, **no** los 6,75 M fijos.
 
-Publicado desde `main`, implementación `8fbd11a`; Vercel confirmó el despliegue completo. En https://pads-fawn.vercel.app/#market se verificó la base de 30 M y el detalle de fuentes. El botón nacional abrió el simulador con 30 M compartidos; inversión 100 M → 0 → 100 M COP produjo cero alcance y frecuencia al invertir cero. El explorador muestra cinco clústeres nacionales y se comprobó Deportistas. Sin errores de aplicación en la consola filtrada por dominio ni desbordamiento horizontal (viewport de 1363 px). No se realizó inspección visual móvil.
+## 7. Modelos de alcance y fuentes de validación
 
-![Universo nacional de PADS publicado](PADS_Universo_Nacional_30M.jpg)
+Modelo por línea: `R = N × [1−exp(−impresiones/N)]`, con intersección alcanzada deducida una sola vez del público común (hasta 250.000). Modelo por medio en 12 olas con CPM, mix de inversión, curva Poisson, unión bajo independencia y cotas de Fréchet/Boole para deduplicación. Los dos cálculos son **simulaciones distintas sobre la misma población** y no se suman.
+
+Para calibrar faltan tamaños reales por plataforma, IDs de intereses seleccionables, CPM e impresiones por periodo, alcance observado y, para cruzar medios, una fuente válida de deduplicación. Los coeficientes editoriales de fit/5 solo ordenan la prioridad potencial y **no son penetración ni tamaños medidos de intereses**.
+
+Código trazable en `src/dane-audience-math.js`, `src/dane-audience-view.js`, `src/math-foundation.js`, `src/simulation.js`. Tests en `tests/dane-audience.test.js` y `tests/math-foundation.test.js`.
