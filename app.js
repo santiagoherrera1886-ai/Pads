@@ -167,7 +167,30 @@ function exportAudiences(){
  ...rows]),'text/csv;charset=utf-8');
  toast('Audiencias beauty por producto exportadas con sus supuestos.');
 }
-function exportSim(){try{const r=applyBuyerReachOverlap(simulate(simState),buyerState.currentShare);download('PADS_Escenario.csv',csv([['PADS · Escenario de alcance, no compradores'],['Cobertura','Toda Colombia'],['Edad','18+ sin límite superior'],['Género','Todos los géneros'],['Universo nacional recomendado',MARKET.planningUniverse],['Potencial digital · cálculo propio',DIGITAL_POTENTIAL],['Universo único del escenario',r.population.unique],['Fuente población',MARKET.populationUrl],['Fuente internet',MARKET.internetUrl],...buyerExportRows(r.population.unique,buyerState.currentShare,r.final.baseUnique),...Object.entries(simState),['Modelo','Base por producto: saturación homogénea e independencia entre líneas; 12 olas iguales. Sensibilidad adicional: repartir la base entre estrategias de pauta y restar un 10% de cruce.'],[],['Ola','Inversión COP','Impresiones','Alcance limpieza · base','Alcance Control Poros · base','Intersección entre productos','Alcance base antes del cruce de audiencias','Audiencia de compradores actuales · alcance','Prospección de nueva audiencia · alcance','Intersección de audiencias · 10%','Alcance único ajustado','Frecuencia ajustada'],...r.rows.map(v=>{const b=roundedBuyerReach(v.baseUnique,buyerState.currentShare);return[v.period,v.spend,Math.round(v.impressions),Math.round(v.cleanReach),Math.round(v.poreReach),Math.round(v.overlap),b.gross,b.current,b.fresh,b.overlap,b.unique,v.frequency.toFixed(3)];})]),'text/csv;charset=utf-8');toast('Escenario con intersección del 10% exportado.');}catch(e){toast(e.message);}}
+function exportSim(){
+ try{
+  const r=simulate(simState);
+  download('PADS_Alcance_Categoria_Matematico.csv',csv([
+   ['PADS · alcances teóricos por producto, base fija; NO personas efectivamente alcanzadas'],
+   ['Colombia','18+ todos los géneros'],['Universo nacional de comunicación (marco general)',MARKET.planningUniverse],
+   ['Universo único categoría fijo',r.population.unique],
+   ['Pads normales',r.population.cleansing],
+   ['Control Poros',r.population.poreCare],
+   ['Público compartido entre productos',r.population.shared],
+   ['Modelo','Saturación Poisson con exposición uniforme e independencia condicional para audiencia compartida; una sola resta del overlap'],
+   ['Impresiones','B/CPM × 1000; inversión acumulada en 12 olas'],
+   ['Alcance línea','N_producto × (1−exp(−impresiones_producto/N_producto))'],
+   ['Cruce efectivamente expuesto','N_compartidos × (alcance_Pads/N_Pads) × (alcance_Poros/N_Poros)'],
+   ['Alcance único','Alcance_Pads+Alcance_Poros−Cruce'],
+   ['Frecuencia','Impresiones_acumuladas/Alcance_único'],
+   ...Object.entries(simState),[],
+   ['Ola','Inversión COP','Impresiones','Alcance Pads','Alcance Control Poros','Cruce alcanzado','Alcance único','Frecuencia'],
+   ...r.rows.map(v=>[v.period,v.spend,v.impressions,v.cleanReach,v.poreReach,v.overlap,v.unique,v.frequency]),
+   ...mathExportRows(productAudienceState,mathematicalMediaScenario())
+  ]),'text/csv;charset=utf-8');
+  toast('Curvas de producto, por medio, fórmulas e hipótesis exportadas.');
+ }catch(e){toast(e.message);}
+}
 function exportMarket(){const r=marketScenario(marketState);download('PADS_Universo_2027.csv',csv([['PADS · Universo de comunicación y escenario de compra'],['Cobertura','Toda Colombia'],['Edad','18+ sin límite superior'],['Género','Todos los géneros'],['Año de planeación',MARKET.year],['Adultos · proyección DANE',MARKET.adults],['Potencial digital · cálculo propio',DIGITAL_POTENTIAL],['Universo de comunicación recomendado',MARKET.planningUniverse],...productAudienceExportRows(productAudienceState),['Método digital','Población 2027 × tasas TIC 2025 constantes; tasa 12–24 como proxy de 18–24'],['Clase media y alta 2025 · todas las edades',MARKET.middleHighShare],['Referencia económica · aproximación propia',ECONOMIC_PROXY],['Método económico','Proporción de todas las edades 2025 aplicada a adultos 2027; sin cruce edad-ingreso ni internet'],['Precio unitario COP',marketState.price],['Meses entre compras',marketState.months],['Presupuesto como porcentaje del ingreso',marketState.budgetShare],['Umbral aritmético de ingreso COP',r.threshold],['Afinidad-acceso-disposición conjunta supuesta (%)',marketState.qualification],['Escenario condicionado · no compradores medidos',r.qualified],['Fuentes población',MARKET.populationUrl],['Fuentes internet',MARKET.internetUrl],['Fuentes ingresos',MARKET.incomeUrl],['Validación','Requiere SKU, distribución y evidencia de disposición de compra al precio real']]),'text/csv;charset=utf-8');toast('Análisis exportado con hipótesis y fuentes.');}
 document.addEventListener('click',async e=>{const el=e.target.closest('[data-action]');if(!el)return;const {action,value}=el.dataset;
  if(action==='export-product-audiences')exportProductAudiences();
