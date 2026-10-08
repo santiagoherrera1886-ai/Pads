@@ -4,6 +4,14 @@
 **Código fuente:** `src/product-audiences.js`, `src/cluster-intelligence.js`, `src/math-foundation.js`, `src/simulation.js`, `src/math-view.js`  
 **Ámbito:** toda Colombia, personas de 18+ y todos los géneros. Una cifra deducida matemáticamente NO equivale a una cifra medida en Ads Manager.
 
+## 0. Origen DANE y ticket medio COP 70.000
+
+La metodología completa de proyección de población 2027, tasas TIC 2025 por rango de edad, factor de comunicación y conversión estratégica a la categoría de 6,75 M está en [DANE, audiencias y ticket](market-methodology.md). La transformación `P18+ = 39.721.750 → D_internet = Σ P_edad × r_TIC2025 = 33,27 M → comunicación = 30 M → categoría = 6,75 M` combina **tres clases distintas de datos**: proyección DANE; extrapolación TIC propia y ajuste de planeación; hipótesis estratégica de consumidores PADS. **No existe una fórmula que extraiga compradores de pads directamente de las tablas del DANE**.
+
+La relación `6,75 M / 30 M = 22,5%` es una identidad aritmética del escenario, **no penetración observada**. Los cinco perfiles de belleza heredan estos cuatro universos con pesos que suman 100% por cohorte.
+
+**Ticket medio comercial fijo:** 70.000 COP por transacción. Fórmulas económicas: `gasto_mensual = 70000/meses_entre_transacciones`, `ingreso_aritmético = gasto_mensual / (porcentaje_ingreso/100)`. Ejemplo con transacción mensual y 5%: 70.000/0,05 = **1.400.000 COP/mes** de referencia puramente aritmética; no es un requisito de ingreso ni un pronóstico de ventas. El ticket no equivale al precio de cada SKU ni modifica la composición de audiencias.
+
 ## 1. Tres niveles de evidencia
 
 1. **Determinístico / verificable:** las operaciones y sus identidades aritméticas, redondeo controlado, sumatorias, cotas y monotonicidad del modelo.
