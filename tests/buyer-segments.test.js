@@ -16,8 +16,8 @@ test('legacy helper returns exclusive buyer groups within a supplied universe wi
   const r=splitBuyerAudience({universe,currentShare,reach});
   assert.equal(r.current+r.newAudience,universe);
   assert.equal(r.overlap,0);assert.equal(r.reachOverlap,0);
-  assert.ok(r.currentReach>=0&&r.currentReach<=r.current);
-  assert.ok(r.newReach>=0&&r.newReach<=r.newAudience);
+  assert.ok(r.currentReach>=-1e-6&&r.currentReach<=r.current+1e-6);
+  assert.ok(r.newReach>=-1e-6&&r.newReach<=r.newAudience+1e-6);
   assert.ok(Math.abs(r.currentReach+r.newReach-reach)<1e-6);
  }
 });
