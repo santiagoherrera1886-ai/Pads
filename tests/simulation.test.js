@@ -13,17 +13,31 @@ test('zero budget gives zero impressions, reach and frequency',()=>{const f=simu
 test('frequency uses total impressions over deduplicated reach',()=>{const f=simulate(EXAMPLE).final;assert.equal(f.frequency,f.impressions/f.unique);});
 test('invalid financial inputs and spend on an empty product are rejected',()=>{for(const patch of [{cpm:0},{cpm:NaN},{budget:-1},{budget:Infinity},{cleansingShare:101},{cleansingOnly:0,shared:0,poreCareOnly:7000000}])assert.throws(()=>simulate({...EXAMPLE,...patch}),RangeError);});
 
-test('legacy demonstration expands to 30M while preserving financial inputs and custom scenarios',()=>{
+test('old 30M and custom browser snapshots migrate to fixed 6.75M without losing valid financial inputs',()=>{
  const legacy={cleansingOnly:1500000,shared:600000,poreCareOnly:900000,budget:250e6,cpm:9500,cleansingShare:45};
- const restored=restoreScenario(null,legacy);
- assert.equal(restored.shared,30e6);assert.equal(restored.cleansingOnly,0);assert.equal(restored.poreCareOnly,0);
- assert.equal(restored.budget,250e6);assert.equal(restored.cpm,9500);assert.equal(restored.cleansingShare,45);
- const custom={...legacy,shared:700000};assert.deepEqual(restoreScenario(null,custom),custom);
- assert.deepEqual(restoreScenario(legacy,null),legacy);
+ for(const saved of [legacy,{...legacy,shared:30e6},{...legacy,shared:700000}]){
+  const restored=restoreScenario(saved,null);
+  assert.equal(restored.shared,250000);
+  assert.equal(restored.cleansingOnly,4250000);
+  assert.equal(restored.poreCareOnly,2250000);
+  assert.equal(restored.budget,250e6);
+  assert.equal(restored.cpm,9500);
+  assert.equal(restored.cleansingShare,45);
+  assert.equal(simulate(restored).population.unique,6750000);
+ }
  assert.deepEqual(restoreScenario(null,null),EXAMPLE);
 });
-test('shared communication base does not change combined reach when only product split changes',()=>{
- const reach=simulate(EXAMPLE).final.unique;
- for(const cleansingShare of [0,20,40,60,80,100])assert.ok(Math.abs(simulate({...EXAMPLE,cleansingShare}).final.unique-reach)<1e-6);
- assert.ok(simulate({...EXAMPLE,budget:200e6}).final.unique>reach);
+test('fixed product reach is mathematically coherent, bounded and responds to investment',()=>{
+ const base=simulate(EXAMPLE);
+ assert.equal(base.population.cleansing,4500000);
+ assert.equal(base.population.poreCare,2500000);
+ assert.equal(base.population.shared,250000);
+ assert.equal(base.population.unique,6750000);
+ assert.ok(base.final.overlap<=250000);
+ assert.ok(Math.abs(base.final.cleanReach+base.final.poreReach-base.final.overlap-base.final.unique)<1e-6);
+ assert.ok(simulate({...EXAMPLE,budget:200e6}).final.unique>base.final.unique);
+ for(const mix of [0,20,40,60,80,100]){
+  const f=simulate({...EXAMPLE,cleansingShare:mix}).final;
+  assert.ok(f.unique>=0&&f.unique<=6750000);
+ }
 });
