@@ -14,7 +14,7 @@ function scopeClusterCard(c, filter) {
   return `<details class="pa-cluster-card">
     <summary><span class="pa-cluster-index">0${PREMIUM_CLUSTERS.indexOf(c) + 1}</span><span><b>${c.name}</b><small>${c.insight}</small></span><span class="pa-arrow">+</span></summary>
     <div class="pa-interests">${columns.map(x => `<article><span class="pa-eyebrow">${x.product} · ${x.status}</span><div class="pa-chip-list">${tags(x.interest)}</div></article>`).join('')}</div>
-    <div class="pa-cluster-foot"><a href="#audiences" data-action="audience" data-value="${c.id}">Ver perfil, creatividad y canales ↗</a></div>
+    <div class="pa-cluster-foot"><button class="text-link" type="button" data-action="audience" data-value="${c.id}">Ver perfil, creatividad y canales ↗</button></div>
   </details>`;
 }
 
@@ -108,5 +108,21 @@ export function productAudiencePanel(state, { scope = 'audiences', filter = 'all
     </div>` : '<p class="pa-more">La matriz de intereses premium por perfil está en <a href="#audiences">Audiencias ↗</a>. Este módulo de producto no altera el modelo independiente de inversión, CPM y 12 olas.</p>'}
     <div class="pa-actions"><button class="button" data-action="reset-product-audiences">Restablecer escenarios ↺</button><button class="button primary" data-action="export-product-audiences">Exportar universos y overlap ↓</button></div>
     <p class="pa-footnote">Base de planeación editorial, no dato de penetración, compra o reach medido. Para activar se deben validar categoría, disponibilidad comercial, audiencias y datos de ventas. La comunicación nacional permanece en 30 M.</p>
+  </section>`;
+}
+export function premiumAudienceDetail(audience, filter = 'all') {
+  const c = PREMIUM_CLUSTERS.find(item => item.id === audience);
+  if (!c) return '';
+  const groups = [
+    ['Pads normales · compradores actuales', c.padsCurrent, 'limpieza'],
+    ['Pads normales · audiencia nueva', c.padsNew, 'limpieza'],
+    ['Control Poros · compradores actuales', c.poreCurrent, 'control-poros'],
+    ['Control Poros · audiencia nueva', c.poreNew, 'control-poros'],
+  ].filter(group => filter === 'all' || group[2] === filter);
+  return `<section class="pa-profile-detail"><span class="pa-caption">BEAUTY TERRITORIES · ${c.name}</span>
+    <h3>Intereses de este clúster por producto y relación de compra</h3>
+    <p class="small muted">${c.insight} Son territorios editoriales premium, no categorías garantizadas de las plataformas ni compradores medidos.</p>
+    <div class="pa-interests">${groups.map(([name, interests]) =>
+      `<article><span class="pa-eyebrow">${name}</span><div class="pa-chip-list">${tags(interests)}</div></article>`).join('')}</div>
   </section>`;
 }
