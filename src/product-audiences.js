@@ -5,8 +5,8 @@ import { MARKET } from './market.js';
 export const PRODUCT_AUDIENCE_DEFAULT = Object.freeze({
   padsCurrent: 2_100_000,
   padsNew: 2_400_000,
-  poreCurrent: 650_000,
-  poreNew: 2_100_000,
+  poreCurrent: 600_000,
+  poreNew: 1_900_000,
   overlapRate: 10,
 });
 export const MAX_PRODUCT_OVERLAP_PERCENT = 10;
