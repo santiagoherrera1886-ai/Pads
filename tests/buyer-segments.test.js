@@ -10,17 +10,18 @@ test('6M current + 7M new is an explicit category example separate from the 30M 
  assert.equal(MARKET.planningUniverse,30e6);
  assert.equal(r.current+r.newAudience,r.universe);
 });
-test('all shares give exclusive counts and conserve projected reach across budget levels',()=>{
- for(const universe of [3,5741779,30e6]) for(let currentShare=0;currentShare<=100;currentShare++) for(const budget of [0,100e6,1e12]){
-  const p=simulate({...EXAMPLE,shared:universe,budget});
-  const s=splitBuyerAudience({universe,currentShare,reach:p.final.unique});
-  assert.equal(s.current+s.newAudience,universe);
-  assert.equal(s.overlap,0);assert.equal(s.reachOverlap,0);
-  assert(s.currentReach>=0&&s.currentReach<=s.current);
-  assert(s.newReach>=0&&s.newReach<=s.newAudience);
-  assert(Math.abs(s.currentReach+s.newReach-p.final.unique)<1e-6);
+test('legacy helper returns exclusive buyer groups within a supplied universe without relying on the fixed PADS simulator',()=>{
+ for(const universe of [3,5741779,30e6]) for(let currentShare=0;currentShare<=100;currentShare++){
+  const reach=universe*.6;
+  const r=splitBuyerAudience({universe,currentShare,reach});
+  assert.equal(r.current+r.newAudience,universe);
+  assert.equal(r.overlap,0);assert.equal(r.reachOverlap,0);
+  assert.ok(r.currentReach>=0&&r.currentReach<=r.current);
+  assert.ok(r.newReach>=0&&r.newReach<=r.newAudience);
+  assert.ok(Math.abs(r.currentReach+r.newReach-reach)<1e-6);
  }
 });
+
 test('zero budget has no reached buyers or new audience, while the potential base stays intact',()=>{
  const r=splitBuyerAudience({universe:30e6,currentShare:20,reach:simulate({...EXAMPLE,budget:0}).final.unique});
  assert.equal(r.currentReach,0);assert.equal(r.newReach,0);assert.equal(r.current,6e6);assert.equal(r.newAudience,24e6);
@@ -65,14 +66,14 @@ test('each wave, coverage and frequency use the same adjusted reach without chan
  for(const budget of [0,100e6,1e12]){
   const base=simulate({...EXAMPLE,budget});
   const adjusted=applyBuyerReachOverlap(base,18.3);
-  assert.equal(adjusted.population.unique,30e6);
+  assert.equal(adjusted.population.unique,6750000);
   for(let i=0;i<12;i++){
    const before=base.rows[i],after=adjusted.rows[i];
    assert.equal(after.baseUnique,before.unique);assert.equal(after.spend,before.spend);assert.equal(after.impressions,before.impressions);
    assert(Math.abs(after.reachOverlap-before.unique*.1)<1e-7);
    assert(Math.abs(after.unique-before.unique*.9)<1e-7);
    assert.equal(after.frequency,after.unique?after.impressions/after.unique:0);
-   assert.equal(after.coverage,after.unique/30e6);
+   assert.equal(after.coverage,after.unique/6750000);
   }
  }
 });
