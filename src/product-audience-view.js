@@ -1,10 +1,11 @@
-import { calculateProductAudiences, PREMIUM_CLUSTERS } from './product-audiences.js';
+import { calculateProductAudiences, PREMIUM_CLUSTERS, MAX_CATEGORY_UNIQUE } from './product-audiences.js';
+import { clusterAudiencePlan } from './cluster-intelligence.js';
 
 const fm = n => new Intl.NumberFormat('es-CO', { maximumFractionDigits: 2 }).format(n / 1_000_000) + ' M';
 const fp = n => new Intl.NumberFormat('es-CO', { maximumFractionDigits: 1 }).format(n) + '%';
 const tags = arr => arr.map(s => '<span class="pa-chip">' + s + '</span>').join('');
 
-function scopeClusterCard(c, filter) {
+function scopeClusterCard(c, filter, g) {
   const columns = [
     { id: 'padsCurrent', product: 'Pads normales', status: 'Compradores actuales', interest: c.padsCurrent },
     { id: 'padsNew', product: 'Pads normales', status: 'Audiencia nueva', interest: c.padsNew },
@@ -12,8 +13,8 @@ function scopeClusterCard(c, filter) {
     { id: 'poreNew', product: 'Control Poros', status: 'Audiencia nueva', interest: c.poreNew },
   ].filter(x => filter === 'all' || (filter === 'limpieza' ? x.id.startsWith('pads') : x.id.startsWith('pore')));
   return `<details class="pa-cluster-card">
-    <summary><span class="pa-cluster-index">0${PREMIUM_CLUSTERS.indexOf(c) + 1}</span><span><b>${c.name}</b><small>${c.insight}</small></span><span class="pa-arrow">+</span></summary>
-    <div class="pa-interests">${columns.map(x => `<article><span class="pa-eyebrow">${x.product} · ${x.status}</span><div class="pa-chip-list">${tags(x.interest)}</div></article>`).join('')}</div>
+    <summary><span class="pa-cluster-index">0${PREMIUM_CLUSTERS.indexOf(c) + 1}</span><span><b>${c.name}</b><small>${c.insight}</small></span><span class="pa-cluster-volume">${fm(g.unique)} únicos estimados</span><span class="pa-arrow">+</span></summary>
+    <div class="pa-interests">${columns.map(x => `<article><span class="pa-eyebrow">${x.product} · ${x.status}</span><strong class="pa-cluster-count">${fm(g.segments[x.id])} · ${g.shares[x.id]}% del universo de origen</strong><div class="pa-chip-list">${tags(x.interest)}</div></article>`).join('')}</div>
     <div class="pa-cluster-foot"><button class="text-link" type="button" data-action="audience" data-value="${c.id}">Ver perfil, creatividad y canales ↗</button></div>
   </details>`;
 }
@@ -35,7 +36,7 @@ export function productAudiencePanel(state, { scope = 'audiences', filter = 'all
       <p>Separamos Pads normales y Pads Control Poros. Cada uno tiene sus compradores actuales y sus oportunidades de descubrimiento. Las dos líneas pueden convivir en una misma persona.</p></div>
       <span class="pa-scope">Toda Colombia · 18+ · todos los géneros</span>
     </div>
-    <div class="pa-flag"><b>HIPÓTESIS EDITABLE</b> Los tamaños de categoría y el overlap no son mediciones de JGB, Meta ni DANE. Los <strong>30 M</strong> nacionales son la base amplia de comunicación, no compradores de pads.</div>
+    <div class="pa-flag"><b>HIPÓTESIS EDITABLE</b> Los tamaños de categoría y el overlap no son mediciones de JGB, Meta ni DANE. Los <strong>30 M</strong> nacionales son la base amplia de comunicación, no compradores de pads. <strong>Tope conjunto de categoría: 7 M únicos después del overlap.</strong></div>
     <div class="pa-products">
       <div class="pa-product-card">
         <div class="pa-product-head"><img src="assets/pads-redondos.png" alt="Pads de algodón de JGB" loading="lazy"><div><span>01 · RITUAL DE LIMPIEZA</span><h3>Pads normales</h3><p>Algodón, limpieza, desmaquillado y rutinas beauty.</p></div><strong>${fm(m.pads.total)}</strong></div>
@@ -44,8 +45,8 @@ export function productAudiencePanel(state, { scope = 'audiences', filter = 'all
           ${audienceCard('Por conquistar', m.pads.fresh, false, 'normal')}
         </div>
         <div class="pa-editors">
-          <label>Compradores actuales <span>millones</span><input type="number" min="0" max="30" step="0.1" value="${state.padsCurrent / 1e6}" data-product-audience-key="padsCurrent"></label>
-          <label>Audiencia nueva <span>millones</span><input type="number" min="0" max="30" step="0.1" value="${state.padsNew / 1e6}" data-product-audience-key="padsNew"></label>
+          <label>Compradores actuales <span>millones</span><input type="number" min="0" max="7" step="0.05" value="${state.padsCurrent / 1e6}" data-product-audience-key="padsCurrent"></label>
+          <label>Audiencia nueva <span>millones</span><input type="number" min="0" max="7" step="0.05" value="${state.padsNew / 1e6}" data-product-audience-key="padsNew"></label>
         </div>
       </div>
       <div class="pa-product-card pore">
@@ -55,8 +56,8 @@ export function productAudiencePanel(state, { scope = 'audiences', filter = 'all
           ${audienceCard('Por conquistar', m.pore.fresh, false, 'pore')}
         </div>
         <div class="pa-editors">
-          <label>Compradores actuales <span>millones</span><input type="number" min="0" max="30" step="0.1" value="${state.poreCurrent / 1e6}" data-product-audience-key="poreCurrent"></label>
-          <label>Audiencia nueva <span>millones</span><input type="number" min="0" max="30" step="0.1" value="${state.poreNew / 1e6}" data-product-audience-key="poreNew"></label>
+          <label>Compradores actuales <span>millones</span><input type="number" min="0" max="7" step="0.05" value="${state.poreCurrent / 1e6}" data-product-audience-key="poreCurrent"></label>
+          <label>Audiencia nueva <span>millones</span><input type="number" min="0" max="7" step="0.05" value="${state.poreNew / 1e6}" data-product-audience-key="poreNew"></label>
         </div>
       </div>
     </div>
@@ -87,11 +88,11 @@ export function productAudiencePanel(state, { scope = 'audiences', filter = 'all
         </div>
       </div>
       <div class="pa-dedup">
-        <span class="pa-caption">UNIVERSO REALMENTE ÚNICO · HIPÓTESIS</span><strong>${fm(m.unique)}</strong>
+        <span class="pa-caption">UNIVERSO ÚNICO ENTRE LOS DOS PRODUCTOS · MÁXIMO 7 M</span><strong>${fm(m.unique)}</strong><p class="pa-max-note">Techo conjunto: ${fm(MAX_CATEGORY_UNIQUE)} de personas únicas.</p>
         <p>Personas sin doble conteo entre Pads normales y Control Poros.</p>
         <div class="pa-formula"><span>+ Pads normales <b>${fm(m.pads.total)}</b></span><span>+ Control Poros <b>${fm(m.pore.total)}</b></span><span>− Personas compartidas <b>${fm(m.overlap)}</b></span></div>
         <div class="pa-balance"><span>Dentro del escenario de categoría</span><b>${fp(m.unique / m.national * 100)} de 30 M</b></div>
-        <div class="pa-progress" role="img" aria-label="${fp(m.unique / m.national * 100)} del universo de 30 millones"><i style="width:${m.unique / m.national * 100}%"></i></div>
+        <div class="pa-progress" role="img" aria-label="${fp(m.unique / MAX_CATEGORY_UNIQUE * 100)} del máximo conjunto de 7 millones"><i style="width:${m.unique / MAX_CATEGORY_UNIQUE * 100}%"></i></div>
         <small>${fm(m.remaining)} del universo general quedan fuera de estas dos bases supuestas. No los clasificamos automáticamente como compradores.</small>
       </div>
     </div>
@@ -104,10 +105,10 @@ export function productAudiencePanel(state, { scope = 'audiences', filter = 'all
     ${scope === 'audiences' ? `<div class="pa-clusters">
       <div class="pa-clusters-head"><span class="pa-caption">BEAUTY INTELLIGENCE · CINCO CONTEXTOS</span><h3>Intereses premium donde conviven los productos.</h3>
         <p>Elige un perfil para ver cuatro territorios distintos: comprador actual y audiencia nueva de cada línea. Son afinidades e ideas de contenido por validar en cada plataforma, no intereses garantizados de pauta ni grupos con tamaños medidos.</p></div>
-      <div class="pa-cluster-list">${PREMIUM_CLUSTERS.map(c => scopeClusterCard(c, filter)).join('')}</div>
+      <div class="pa-cluster-list">${clusterAudiencePlan(state).groups.map(g => scopeClusterCard(g, filter, g)).join('')}</div>
     </div>` : '<p class="pa-more">La matriz de intereses premium por perfil está en <a href="#audiences">Audiencias ↗</a>. Este módulo de producto no altera el modelo independiente de inversión, CPM y 12 olas.</p>'}
     <div class="pa-actions"><button class="button" data-action="reset-product-audiences">Restablecer escenarios ↺</button><button class="button primary" data-action="export-product-audiences">Exportar universos y overlap ↓</button></div>
-    <p class="pa-footnote">Base de planeación editorial, no dato de penetración, compra o reach medido. Para activar se deben validar categoría, disponibilidad comercial, audiencias y datos de ventas. La comunicación nacional permanece en 30 M.</p>
+    <p class="pa-footnote">Base de planeación editorial limitada a 7 millones únicos entre las líneas, no dato de penetración, compra o reach medido. Para activar se deben validar categoría, disponibilidad comercial, audiencias y datos de ventas. La comunicación nacional permanece en 30 M.</p>
   </section>`;
 }
 export function premiumAudienceDetail(audience, filter = 'all') {
